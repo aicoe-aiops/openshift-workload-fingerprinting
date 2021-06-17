@@ -2,6 +2,7 @@ presubmits:
   - name: pre-commit
     decorate: true
     skip_report: false
+    clone_uri: "git@github.com:aicoe-aiops/openshift-workload-fingerprinting.git"
     always_run: true
     context: aicoe-ci/prow/pre-commit
     spec:
