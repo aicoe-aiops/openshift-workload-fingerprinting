@@ -4,7 +4,7 @@ _Efficiently fingerprint workloads running in OpenShift clusters in order to mak
 
 As part of the remote health monitoring, the workloads running on OpenShift clusters are of interest to the business, to the product roadmap, to the engineering organization, and to the customer success organization. Workload fingerprinting refers to taking a number of snapshots of operational and performance metrics related to workloads deployed in clusters, and then aggregating and classifying them to create a 'signature' or 'fingerprint' of the workload. This kind of analysis can help us understand customer usage patterns, identify problematic workloads, make performance tuning decisions, etc.
 
-This project aims to do an EDA of different workloads based on the insight archive data, and then use ML for identifying and analysing the types (i.e. clusters) of workloads that customer run.  
+This project aims to do an EDA of different workloads based on the insight archive data, and then use ML for identifying and analysing the types (i.e. clusters) of workloads that customer run.
 
 Project Organization
 ------------
