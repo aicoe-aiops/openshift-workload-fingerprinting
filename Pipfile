@@ -13,6 +13,11 @@ src = {editable = true, path = "./"}
 awscli = "*"
 pandas = "*"
 boto3 = "*"
+python-dotenv = "*"
+dataprep = "*"
+pivottablejs = "*"
+pyarrow = "*"
+numpy = "*"
 
 [requires]
 python_version = "3.8"
