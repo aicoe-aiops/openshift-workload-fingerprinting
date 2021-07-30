@@ -27,6 +27,8 @@ beautifulsoup4 = "*"
 jupyterlab = "*"
 pre-commit = "*"
 progressbar = "*"
+kmodes = "*"
+dirty-cat = "*"
 
 [requires]
 python_version = "3.8"
