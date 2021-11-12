@@ -1,0 +1,17 @@
+format: jb-book
+root: README
+parts:
+  - caption: Previous Work Done
+    chapters:
+    - file: docs/Relevant_papers.md
+  - caption: Getting Started
+    chapters:
+    - file: notebooks/getting_started_notebook
+    - file: notebooks/pyxis_mapping
+    - file: notebooks/Data_collection_from_telemetry
+  - caption: Exploratory Data Analysis
+    chapters:
+    - file: notebooks/EDA_insight_workload_data
+  - caption: ML Clustering
+    chapters:
+    - file: notebooks/ML_clustering_part2
