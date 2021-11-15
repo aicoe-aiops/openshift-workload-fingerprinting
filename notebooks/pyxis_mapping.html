@@ -1,0 +1,968 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mapping Image SHA to Image Name using Pyxis database &#8212; OpenShift Workload Fingerprinting</title>
+
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+
+
+
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script>
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Extracting the Telemetry Info for Clusters in Workload Dataset" href="Data_collection_from_telemetry.html" />
+    <link rel="prev" title="Getting started: Introducing workload data" href="getting_started_notebook.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+
+
+    <!-- Google Analytics -->
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+
+    <div class="container-fluid" id="banner"></div>
+
+
+
+    <div class="container-xl">
+      <div class="row">
+
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+
+
+
+      <h1 class="site-logo" id="site-title">OpenShift Workload Fingerprinting</h1>
+
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../README.html">
+   Understanding Workloads in OpenShift
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Previous Work Done
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../docs/Relevant_papers.html">
+   Relevant Papers related to Fingerprinting Workloads
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Getting Started
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="getting_started_notebook.html">
+   Getting started: Introducing workload data
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Mapping Image SHA to Image Name using Pyxis database
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Data_collection_from_telemetry.html">
+   Extracting the Telemetry Info for Clusters in Workload Dataset
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Exploratory Data Analysis
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="EDA_workload_demo.html">
+   Exploratory Data Analysis
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  ML Clustering
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="ML_clustering_part2.html">
+   ML Clustering
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+
+
+
+
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/notebooks/pyxis_mapping.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/aicoe-aiops/openshift-workload-fingerprinting"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/aicoe-aiops/openshift-workload-fingerprinting/issues/new?title=Issue%20on%20page%20%2Fnotebooks/pyxis_mapping.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+
+        <a class="binder-button" href=" /v2/gh/aicoe-aiops/openshift-workload-fingerprinting/master?urlpath=lab/tree/notebooks/pyxis_mapping.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+
+
+        <a class="jupyterhub-button" href="https://jupyterhub-opf-jupyterhub.apps.smaug.na.operate-first.cloud/hub/user-redirect/git-pull?repo=https://github.com/aicoe-aiops/openshift-workload-fingerprinting&urlpath=lab/tree/openshift-workload-fingerprinting/notebooks/pyxis_mapping.ipynb&branch=master"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch JupyterHub" data-toggle="tooltip"
+                data-placement="left"><img class="jupyterhub-button-logo"
+                    src="../_static/images/logo_jupyterhub.svg"
+                    alt="Interact on JupyterHub">JupyterHub</button></a>
+
+
+
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#pre-requisite">
+   Pre-requisite
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#importing-useful-packages">
+   Importing useful packages
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#data-collection">
+   Data Collection
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#function-to-extract-mapped-information-for-image-id">
+   Function to extract mapped information for
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     image_id
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#function-to-extract-mapped-information-for-image-layer-id">
+   Function to extract mapped information for
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     image_layer_id
+    </span>
+   </code>
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#mapping-the-sha-s-in-image-id-column-of-image-layers-dataset">
+   Mapping the SHA’s in
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     image_id
+    </span>
+   </code>
+   column of Image layers Dataset
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#mapping-sha-s-from-image-layer-id-column-of-image-layers-dataset">
+   Mapping SHA’s from
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     image_layer_id
+    </span>
+   </code>
+   column of Image Layers Dataset
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#mapping-the-sha-s-inimage-id-column-of-containers-dataset">
+   Mapping the SHA’s in
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     image
+    </span>
+    <span class="pre">
+     id
+    </span>
+   </code>
+   column of Containers dataset
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+
+              <div>
+
+  <div class="tex2jax_ignore mathjax_ignore section" id="mapping-image-sha-to-image-name-using-pyxis-database">
+<h1>Mapping Image SHA to Image Name using Pyxis database<a class="headerlink" href="#mapping-image-sha-to-image-name-using-pyxis-database" title="Permalink to this headline">¶</a></h1>
+<p>In order to answer most of the customer usage and business insights related questions raised in the OpenShift Workload Fingerprinting project, we need to connect two disparate datasets - the insights operator archive and the pyxis database. That is, we want to use pyxis to determine the product name, architecture, vulnerabilities, vendor, etc corresponding to the container image SHA’s in the insights dataset. In a previous <a class="reference external" href="https://github.com/aicoe-aiops/openshift-workload-fingerprinting/issues/11#issuecomment-867776402">issue</a>, we figured out how to do this for a given SHA, by using curl in the terminal. In this notebook, we will try to do this programmatically, and do it for all the SHA’s available in our dataset. We will then store this merged dataset to an s3 bucket and use it for the rest of the analysis in the project going forward.</p>
+<div class="section" id="pre-requisite">
+<h2>Pre-requisite<a class="headerlink" href="#pre-requisite" title="Permalink to this headline">¶</a></h2>
+<p>In order to fetch the image name (and other details) for the given ‘sha’ of the image_id, please complete the pre-requisite described below.</p>
+<ol class="simple">
+<li><p>Follow the <a class="reference external" href="https://source.redhat.com/groups/public/ccs-onboarding-program/ccs_onboarding_wiki/setting_up_a_kerberos_ticket_and_red_hat_idm">link</a> in order to set-up a kerberos ticket and Red Hat IdM on your machine.</p></li>
+<li><p>Update the <code class="docutils literal notranslate"><span class="pre">/etc/krb5.conf</span></code> on your machine by setting <code class="docutils literal notranslate"><span class="pre">dns_canonical_hostname</span></code> to <code class="docutils literal notranslate"><span class="pre">false</span></code>, as described in the first ‘red box’ in this <a class="reference external" href="https://docs.engineering.redhat.com/display/HSSP/Pyxis+access+request">guide</a></p></li>
+<li><p>Obtain the kerberos ticket by running, <code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">kinit</span> <span class="pre">&lt;your_kerberos_username&gt;&#64;IPA.REDHAT.COM</span></code></p></li>
+</ol>
+<p>In this notebook, we map the given “sha” of the image_id for the image layer dataset and container dataset provided from the workload data of the insight operator.</p>
+</div>
+<div class="section" id="importing-useful-packages">
+<h2>Importing useful packages<a class="headerlink" href="#importing-useful-packages" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">boto3</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">multiprocessing</span> <span class="k">as</span> <span class="nn">mp</span>
+
+<span class="kn">from</span> <span class="nn">requests_kerberos</span> <span class="kn">import</span> <span class="n">HTTPKerberosAuth</span><span class="p">,</span> <span class="n">OPTIONAL</span>
+<span class="kn">from</span> <span class="nn">dotenv</span> <span class="kn">import</span> <span class="n">find_dotenv</span><span class="p">,</span> <span class="n">load_dotenv</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">load_dotenv</span><span class="p">(</span><span class="n">find_dotenv</span><span class="p">())</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">&quot;display.max_columns&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="data-collection">
+<h2>Data Collection<a class="headerlink" href="#data-collection" title="Permalink to this headline">¶</a></h2>
+<p>In this section, we will fetch from our s3 bucket the containers dataset and the image layers dataset that have been curated from insights operator archives. To learn more about the general content of datasets, please check out the <a class="reference external" href="https://github.com/aicoe-aiops/openshift-workload-fingerprinting/blob/master/notebooks/getting_started_notebook.ipynb">getting_started</a> notebook.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># CEPH Bucket variables</span>
+<span class="n">s3_endpoint_url</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;S3_ENDPOINT&quot;</span><span class="p">)</span>
+<span class="n">s3_access_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;S3_ACCESS_KEY&quot;</span><span class="p">)</span>
+<span class="n">s3_secret_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;S3_SECRET_KEY&quot;</span><span class="p">)</span>
+<span class="n">s3_secret_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;S3_SECRET_KEY&quot;</span><span class="p">)</span>
+<span class="n">s3_bucket</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;S3_BUCKET&quot;</span><span class="p">)</span>
+
+<span class="c1"># s3 resource to communicate with storage</span>
+<span class="n">s3</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span>
+    <span class="s2">&quot;s3&quot;</span><span class="p">,</span>
+    <span class="n">endpoint_url</span><span class="o">=</span><span class="n">s3_endpoint_url</span><span class="p">,</span>
+    <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">s3_access_key</span><span class="p">,</span>
+    <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">s3_secret_key</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">dates</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;2021-08-05&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2021-08-08&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2021-08-10&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2021-08-11&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2021-08-15&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2021-08-17&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2021-08-19&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2021-08-22&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2021-08-23&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">image_layers_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([])</span>
+<span class="n">image1</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">date</span> <span class="ow">in</span> <span class="n">dates</span><span class="p">:</span>
+    <span class="n">obj1</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">Object</span><span class="p">(</span>
+        <span class="n">s3_bucket</span><span class="p">,</span>
+        <span class="s2">&quot;prototype/workload/image_layers/date=</span><span class="si">{date}</span><span class="s2">/</span><span class="si">{date}</span><span class="s2">.parquet&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="n">date</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">buffer1</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
+    <span class="n">obj1</span><span class="o">.</span><span class="n">download_fileobj</span><span class="p">(</span><span class="n">buffer1</span><span class="p">)</span>
+    <span class="n">image1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">buffer1</span><span class="p">)</span>
+    <span class="n">image_layers_df</span> <span class="o">=</span> <span class="n">image_layers_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">image1</span><span class="p">)</span>
+
+<span class="n">containers_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([])</span>
+<span class="n">image2</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">date</span> <span class="ow">in</span> <span class="n">dates</span><span class="p">:</span>
+    <span class="n">obj2</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">Object</span><span class="p">(</span>
+        <span class="n">s3_bucket</span><span class="p">,</span>
+        <span class="s2">&quot;prototype/workload/containers/date=</span><span class="si">{date}</span><span class="s2">/</span><span class="si">{date}</span><span class="s2">.parquet&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="n">date</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">buffer2</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
+    <span class="n">obj2</span><span class="o">.</span><span class="n">download_fileobj</span><span class="p">(</span><span class="n">buffer2</span><span class="p">)</span>
+    <span class="n">image2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">buffer2</span><span class="p">)</span>
+    <span class="n">containers_df</span> <span class="o">=</span> <span class="n">containers_df</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">image2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">image_layers_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>cluster_id</th>
+      <th>image_id</th>
+      <th>layer_image_id</th>
+      <th>layer_image_level</th>
+      <th>first_command</th>
+      <th>first_arg</th>
+      <th>archive_path</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>9e97b920-2876-4076-8bfb-36fe123bc273</td>
+      <td>sha256:3bc831c3d6614afcd5a8e1728b8bbe6709c957d...</td>
+      <td>sha256:1cadda38f72dece653de82063e3c8e910265fe7...</td>
+      <td>0</td>
+      <td>U7Yi5SISAtKW</td>
+      <td>&lt;NA&gt;</td>
+      <td>archives/compressed/9e/9e97b920-2876-4076-8bfb...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>9e97b920-2876-4076-8bfb-36fe123bc273</td>
+      <td>sha256:3bc831c3d6614afcd5a8e1728b8bbe6709c957d...</td>
+      <td>sha256:a50df8fd88fecefc26fd331f832672108deb08c...</td>
+      <td>1</td>
+      <td>U7Yi5SISAtKW</td>
+      <td>&lt;NA&gt;</td>
+      <td>archives/compressed/9e/9e97b920-2876-4076-8bfb...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>9e97b920-2876-4076-8bfb-36fe123bc273</td>
+      <td>sha256:3bc831c3d6614afcd5a8e1728b8bbe6709c957d...</td>
+      <td>sha256:904d3325f999f09cad1ba9676937fc8b72ff285...</td>
+      <td>2</td>
+      <td>U7Yi5SISAtKW</td>
+      <td>&lt;NA&gt;</td>
+      <td>archives/compressed/9e/9e97b920-2876-4076-8bfb...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">containers_df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>cluster_id</th>
+      <th>namespace</th>
+      <th>shape</th>
+      <th>shape_instances</th>
+      <th>image_id</th>
+      <th>first_command</th>
+      <th>first_arg</th>
+      <th>init_container</th>
+      <th>archive_path</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>98df2866-2131-41c1-97f3-aba6f8761c3d</td>
+      <td>0LiT6ZNtbpYL</td>
+      <td>sha256:7ac9e625af2e30671ebec339821489da205116c...</td>
+      <td>6</td>
+      <td>sha256:6c05d74eb1fa37a77ed9215d83933265564d661...</td>
+      <td>N9KxLV2avCo2</td>
+      <td>BuLIUMMJnyP_</td>
+      <td>False</td>
+      <td>archives/compressed/98/98df2866-2131-41c1-97f3...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>98df2866-2131-41c1-97f3-aba6f8761c3d</td>
+      <td>0LiT6ZNtbpYL</td>
+      <td>sha256:b1adc9101829bec6f71530547b1151891a99116...</td>
+      <td>6</td>
+      <td>sha256:6c05d74eb1fa37a77ed9215d83933265564d661...</td>
+      <td>N9KxLV2avCo2</td>
+      <td>EbplhSJxzSTF</td>
+      <td>False</td>
+      <td>archives/compressed/98/98df2866-2131-41c1-97f3...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>98df2866-2131-41c1-97f3-aba6f8761c3d</td>
+      <td>0LiT6ZNtbpYL</td>
+      <td>sha256:b1adc9101829bec6f71530547b1151891a99116...</td>
+      <td>6</td>
+      <td>sha256:8b9ecf20324c62d92b4a812a9f502b1059cfed0...</td>
+      <td>Cl6kTzfbYztA</td>
+      <td>&lt;NA&gt;</td>
+      <td>True</td>
+      <td>archives/compressed/98/98df2866-2131-41c1-97f3...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+</div>
+<div class="section" id="function-to-extract-mapped-information-for-image-id">
+<h2>Function to extract mapped information for <code class="docutils literal notranslate"><span class="pre">image_id</span></code><a class="headerlink" href="#function-to-extract-mapped-information-for-image-id" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">mapped_df</span><span class="p">(</span><span class="n">image_id</span><span class="p">):</span>
+    <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([])</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s2">&quot;https://pyxis.engineering.redhat.com/v1/images?filter=image_id==&quot;</span>
+    <span class="n">image_id</span> <span class="o">=</span> <span class="n">image_id</span>
+    <span class="n">team_url</span> <span class="o">=</span> <span class="n">base_url</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">image_id</span><span class="p">)</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">team_url</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="n">kerberos_auth</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;parsed_data&quot;</span><span class="p">][</span><span class="s2">&quot;labels&quot;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;parsed_data&quot;</span><span class="p">][</span><span class="s2">&quot;labels&quot;</span><span class="p">])</span>
+                <span class="n">table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span>
+                    <span class="n">df</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">aggfunc</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s2">&quot;name&quot;</span>
+                <span class="p">)</span>
+                <span class="n">table</span><span class="p">[</span><span class="s2">&quot;image_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">image_id</span>
+                <span class="n">table</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;image_id&quot;</span><span class="p">)</span>
+                <span class="n">dataframe</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dataframe</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="function-to-extract-mapped-information-for-image-layer-id">
+<h2>Function to extract mapped information for <code class="docutils literal notranslate"><span class="pre">image_layer_id</span></code><a class="headerlink" href="#function-to-extract-mapped-information-for-image-layer-id" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">mapped_layer_df</span><span class="p">(</span><span class="n">image_id</span><span class="p">):</span>
+    <span class="n">dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([])</span>
+    <span class="n">base_url</span> <span class="o">=</span> <span class="s2">&quot;https://pyxis.engineering.redhat.com/v1/images?filter=top_layer_id==&quot;</span>
+    <span class="n">team_url</span> <span class="o">=</span> <span class="n">base_url</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">image_id</span><span class="p">)</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">team_url</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="n">kerberos_auth</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;parsed_data&quot;</span><span class="p">][</span><span class="s2">&quot;labels&quot;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;parsed_data&quot;</span><span class="p">][</span><span class="s2">&quot;labels&quot;</span><span class="p">])</span>
+                <span class="n">table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">pivot_table</span><span class="p">(</span>
+                    <span class="n">df</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">aggfunc</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="s2">&quot;name&quot;</span>
+                <span class="p">)</span>
+                <span class="n">table</span><span class="p">[</span><span class="s2">&quot;image_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">image_id</span>
+                <span class="n">table</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;image_id&quot;</span><span class="p">)</span>
+                <span class="n">dataframe</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dataframe</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="mapping-the-sha-s-in-image-id-column-of-image-layers-dataset">
+<h2>Mapping the SHA’s in <code class="docutils literal notranslate"><span class="pre">image_id</span></code> column of Image layers Dataset<a class="headerlink" href="#mapping-the-sha-s-in-image-id-column-of-image-layers-dataset" title="Permalink to this headline">¶</a></h2>
+<p>First, we try to form a list of unique image_id from the image layer dataset. Using that list, we will be doing the web scraping followed by the formation of the dataframe with image_id and corresponding product name, summary, vendor, version, and other attributes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Creating the list of image_id</span>
+<span class="n">arr_imageid</span> <span class="o">=</span> <span class="n">image_layers_df</span><span class="o">.</span><span class="n">image_id</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kerberos_auth</span> <span class="o">=</span> <span class="n">HTTPKerberosAuth</span><span class="p">(</span><span class="n">mutual_authentication</span><span class="o">=</span><span class="n">OPTIONAL</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Size of the list</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">arr_imageid</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5315
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># number of max processes</span>
+<span class="n">n_max_processes</span> <span class="o">=</span> <span class="n">mp</span><span class="o">.</span><span class="n">cpu_count</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">n_max_processes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">mp</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="n">n_max_processes</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">tqdm</span><span class="p">(</span><span class="n">pool</span><span class="o">.</span><span class="n">imap</span><span class="p">(</span><span class="n">mapped_df</span><span class="p">,</span> <span class="n">arr_imageid</span><span class="p">),</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">arr_imageid</span><span class="p">)))</span>
+    <span class="n">dataframe_image_id</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 5315/5315 [10:54&lt;00:00,  8.13it/s]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataframe_image_id</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(958, 73)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Mapped 956 (~18%) image_id’s sha out of 5315 image_ids.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd"># Uploading the mapping dataset in the bucket</span>
+<span class="sd">parquet_buffer = io.BytesIO()</span>
+<span class="sd">dataframe_image_id.to_parquet(parquet_buffer)</span>
+<span class="sd">s3_obj = s3.Object(</span>
+<span class="sd">    s3_bucket, &quot;prototype/workload/image_layers/dataframe_image_id.parquet&quot;</span>
+<span class="sd">)</span>
+<span class="sd">status = s3_obj.put(Body=parquet_buffer.getvalue())</span>
+<span class="sd">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;\n# Uploading the mapping dataset in the bucket\nparquet_buffer = io.BytesIO()\ndataframe_image_id.to_parquet(parquet_buffer)\ns3_obj = s3.Object(\n    s3_bucket, &quot;prototype/workload/image_layers/dataframe_image_id.parquet&quot;\n)\nstatus = s3_obj.put(Body=parquet_buffer.getvalue())\n&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>The corresponding image_id mapped with the product name is saved in the bucket in the form of dataframe (<em>dataframe_image_id.parquet</em>).</p>
+</div>
+<hr class="docutils" />
+<div class="section" id="mapping-sha-s-from-image-layer-id-column-of-image-layers-dataset">
+<h2>Mapping SHA’s from <code class="docutils literal notranslate"><span class="pre">image_layer_id</span></code> column of Image Layers Dataset<a class="headerlink" href="#mapping-sha-s-from-image-layer-id-column-of-image-layers-dataset" title="Permalink to this headline">¶</a></h2>
+<p>In addition to the <code class="docutils literal notranslate"><span class="pre">image_id</span></code> column, the <code class="docutils literal notranslate"><span class="pre">image_layer_id</span></code> column also contains image SHA’s. These SHA’s correspond to the layers that make up the image in <code class="docutils literal notranslate"><span class="pre">image_id</span></code>. In this section, we try to form a list of unique image_layer_id from the image layer dataset. Using that list, we will be doing the web scraping followed by the formation of the dataframe with image_layer_id and corresponding product name, summary, vendor, and other attributes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">arr_layer_imageid</span> <span class="o">=</span> <span class="n">image_layers_df</span><span class="o">.</span><span class="n">layer_image_id</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Size of the list</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">arr_layer_imageid</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>17817
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">mp</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="n">n_max_processes</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+    <span class="n">df_image_layerid</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+        <span class="n">tqdm</span><span class="p">(</span>
+            <span class="n">pool</span><span class="o">.</span><span class="n">imap</span><span class="p">(</span><span class="n">mapped_layer_df</span><span class="p">,</span> <span class="n">arr_layer_imageid</span><span class="p">),</span>
+            <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">arr_layer_imageid</span><span class="p">),</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">df_image_layerid</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">df_image_layerid</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 17817/17817 [35:21&lt;00:00,  8.40it/s]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_image_layerid</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(1292, 105)
+</pre></div>
+</div>
+</div>
+</div>
+<p>We were able to create a dataframe which maps 1292 (~7%) sha’s of the image layer id provided in the image layer dataset out of 17817 sha’s in the image layer dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd"># Uploading the mapping dataset in the bucket</span>
+<span class="sd">parquet_buffer = io.BytesIO()</span>
+<span class="sd">df_image_layer_id.to_parquet(parquet_buffer)</span>
+<span class="sd">s3_obj = s3.Object(</span>
+<span class="sd">    s3_bucket, &quot;prototype/workload/image_layers/df_image_layer_id.parquet&quot;</span>
+<span class="sd">)</span>
+<span class="sd">status = s3_obj.put(Body=parquet_buffer.getvalue())</span>
+<span class="sd">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;\n# Uploading the mapping dataset in the bucket\nparquet_buffer = io.BytesIO()\ndf_image_layer_id.to_parquet(parquet_buffer)\ns3_obj = s3.Object(\n    s3_bucket, &quot;prototype/workload/image_layers/df_image_layer_id.parquet&quot;\n)\nstatus = s3_obj.put(Body=parquet_buffer.getvalue())\n&#39;
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="mapping-the-sha-s-inimage-id-column-of-containers-dataset">
+<h2>Mapping the SHA’s in<code class="docutils literal notranslate"><span class="pre">image</span> <span class="pre">id</span></code> column of Containers dataset<a class="headerlink" href="#mapping-the-sha-s-inimage-id-column-of-containers-dataset" title="Permalink to this headline">¶</a></h2>
+<p>In this section, we will map the SHA’s in the containers dataset to their product name, summary, vendor, and other attributes. We will first form a list of unique image_id’s from the containers dataset. Using that list, we will be doing the web scraping followed by the formation of the dataframe with image_id and corresponding attributes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Listing out the SHA&#39;s of image_id</span>
+<span class="n">arr_cont_imageid</span> <span class="o">=</span> <span class="n">containers_df</span><span class="o">.</span><span class="n">image_id</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Size of the list</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">arr_cont_imageid</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>33488
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">mp</span><span class="o">.</span><span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="n">n_max_processes</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+    <span class="n">df_cont_image_id</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+        <span class="n">tqdm</span><span class="p">(</span><span class="n">pool</span><span class="o">.</span><span class="n">imap</span><span class="p">(</span><span class="n">mapped_df</span><span class="p">,</span> <span class="n">arr_cont_imageid</span><span class="p">),</span> <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">arr_cont_imageid</span><span class="p">))</span>
+    <span class="p">)</span>
+    <span class="n">df_cont_image_id</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">df_cont_image_id</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 33488/33488 [1:07:39&lt;00:00,  8.25it/s]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_cont_image_id</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(8928, 262)
+</pre></div>
+</div>
+</div>
+</div>
+<p>Here, we successfully did the mapping for 8928 (~26%) sha’s of the image_id for container dataset out of 33488 sha’s of image_id.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd"># Uploading the mapping dataset in the bucket</span>
+<span class="sd">parquet_buffer = io.BytesIO()</span>
+<span class="sd">df_cont_image_id.to_parquet(parquet_buffer)</span>
+<span class="sd">s3_obj = s3.Object(</span>
+<span class="sd">    s3_bucket, &quot;prototype/workload/containers/df_cont_image_id.parquet&quot;</span>
+<span class="sd">)</span>
+<span class="sd">status = s3_obj.put(Body=parquet_buffer.getvalue())</span>
+<span class="sd">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;\n# Uploading the mapping dataset in the bucket\nparquet_buffer = io.BytesIO()\ndf_cont_image_id.to_parquet(parquet_buffer)\ns3_obj = s3.Object(\n    s3_bucket, &quot;prototype/workload/containers/df_cont_image_id.parquet&quot;\n)\nstatus = s3_obj.put(Body=parquet_buffer.getvalue())\n&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<p>The corresponding mapped dataframe is saved in bucket.</p>
+</div>
+<hr class="docutils" />
+<div class="section" id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h2>
+<p>The notebook does takes some time to run. In the notebook, we were able to map the product name with the corresponding image_id from the image layer dataset and the container dataset. They mapped dataframe are then saved in the bucket.</p>
+<p>As next steps, we will be extracting the telemetry information (cpu usage, memory usage) corresponding to different cluster_id in the workload dataset.</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+
+
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="getting_started_notebook.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Getting started: Introducing workload data</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="Data_collection_from_telemetry.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Extracting the Telemetry Info for Clusters in Workload Dataset</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+
+          By AIOps<br/>
+
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

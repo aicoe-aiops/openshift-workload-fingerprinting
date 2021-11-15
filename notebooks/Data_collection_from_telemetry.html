@@ -1,0 +1,2779 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Extracting the Telemetry Info for Clusters in Workload Dataset &#8212; OpenShift Workload Fingerprinting</title>
+
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+
+
+
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script>
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Exploratory Data Analysis" href="EDA_workload_demo.html" />
+    <link rel="prev" title="Mapping Image SHA to Image Name using Pyxis database" href="pyxis_mapping.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+
+
+    <!-- Google Analytics -->
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+
+    <div class="container-fluid" id="banner"></div>
+
+
+
+    <div class="container-xl">
+      <div class="row">
+
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+
+
+
+      <h1 class="site-logo" id="site-title">OpenShift Workload Fingerprinting</h1>
+
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../README.html">
+   Understanding Workloads in OpenShift
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Previous Work Done
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../docs/Relevant_papers.html">
+   Relevant Papers related to Fingerprinting Workloads
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Getting Started
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="getting_started_notebook.html">
+   Getting started: Introducing workload data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyxis_mapping.html">
+   Mapping Image SHA to Image Name using Pyxis database
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Extracting the Telemetry Info for Clusters in Workload Dataset
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Exploratory Data Analysis
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="EDA_workload_demo.html">
+   Exploratory Data Analysis
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  ML Clustering
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="ML_clustering_part2.html">
+   ML Clustering
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+
+
+
+
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/notebooks/Data_collection_from_telemetry.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/aicoe-aiops/openshift-workload-fingerprinting"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/aicoe-aiops/openshift-workload-fingerprinting/issues/new?title=Issue%20on%20page%20%2Fnotebooks/Data_collection_from_telemetry.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+
+        <a class="binder-button" href=" /v2/gh/aicoe-aiops/openshift-workload-fingerprinting/master?urlpath=lab/tree/notebooks/Data_collection_from_telemetry.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+
+
+        <a class="jupyterhub-button" href="https://jupyterhub-opf-jupyterhub.apps.smaug.na.operate-first.cloud/hub/user-redirect/git-pull?repo=https://github.com/aicoe-aiops/openshift-workload-fingerprinting&urlpath=lab/tree/openshift-workload-fingerprinting/notebooks/Data_collection_from_telemetry.ipynb&branch=master"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch JupyterHub" data-toggle="tooltip"
+                data-placement="left"><img class="jupyterhub-button-logo"
+                    src="../_static/images/logo_jupyterhub.svg"
+                    alt="Interact on JupyterHub">JupyterHub</button></a>
+
+
+
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#overview">
+   Overview
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#importing-packages">
+   Importing packages
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#data-collection-from-bucket">
+   Data Collection from bucket
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#connect-to-prometheus">
+   Connect to Prometheus
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#getting-the-data-for-given-timestamp-and-cluster-id-for-image-layer-datadset">
+   Getting the data for given
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     timestamp
+    </span>
+   </code>
+   and
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     cluster_id
+    </span>
+   </code>
+   for image layer datadset
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#metric-name-workload-cpu-usage-cores-sum">
+     Metric name:
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       workload:cpu_usage_cores:sum
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#metric-name-workload-memory-usage-bytes-sum">
+     Metric name:
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       workload:memory_usage_bytes:sum
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#metric-name-openshift-cpu-usage-cores-sum">
+     Metric name:
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       openshift:cpu_usage_cores:sum
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#metric-name-openshift-memory-usage-bytes-sum">
+     Metric name:
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       openshift:memory_usage_bytes:sum
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#metric-name-cluster-cpu-usage-cores-sum">
+     Metric name:
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       cluster:cpu_usage_cores:sum
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#metric-name-cluster-memory-usage-bytes-sum">
+     Metric name:
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       cluster:memory_usage_bytes:sum
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#merging-datasets">
+     Merging Datasets
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#getting-the-data-for-given-timestamp-and-cluster-id-for-container-dataset">
+   Getting the data for given
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     timestamp
+    </span>
+   </code>
+   and
+   <code class="docutils literal notranslate">
+    <span class="pre">
+     cluster_id
+    </span>
+   </code>
+   for Container dataset
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     Metric name:
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       workload:cpu_usage_cores:sum
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     Metric name:
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       workload:memory_usage_bytes:sum
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     Metric name:
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       openshift:cpu_usage_cores:sum
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     Metric name:
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       openshift:memory_usage_bytes:sum
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     Metric name:
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       cluster:cpu_usage_cores:sum
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id6">
+     Metric name:
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       cluster:memory_usage_bytes:sum
+      </span>
+     </code>
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id7">
+     Merging Datasets
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+
+              <div>
+
+  <div class="tex2jax_ignore mathjax_ignore section" id="extracting-the-telemetry-info-for-clusters-in-workload-dataset">
+<h1>Extracting the Telemetry Info for Clusters in Workload Dataset<a class="headerlink" href="#extracting-the-telemetry-info-for-clusters-in-workload-dataset" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>As a data scientist, working on a workload fingerprinting project, the workload data that we have from the insight operator archive are limited to some informations like product name, cpu usage, memory usage, etc. We have done the product name mapping in this <a class="reference external" href="https://github.com/aicoe-aiops/openshift-workload-fingerprinting/issues/14">issue</a>.</p>
+<p>The purpose of this notebook is to be able to  extract the data from the telemetry based on the <code class="docutils literal notranslate"><span class="pre">cluster_id</span></code> and <code class="docutils literal notranslate"><span class="pre">timestamp</span></code> as given in the workload data. Metric information are extracted both for <code class="docutils literal notranslate"><span class="pre">image_layers_dataset</span></code> and <code class="docutils literal notranslate"><span class="pre">container_dataset</span></code>. The different metrics are,</p>
+<ul class="simple">
+<li><p><strong>workload:cpu_usage_cores:sum</strong></p></li>
+<li><p><strong>workload:memory_usage_bytes:sum</strong></p></li>
+<li><p><strong>openshift:cpu_usage_cores:sum</strong></p></li>
+<li><p><strong>openshift:memory_usage_bytes:sum</strong></p></li>
+<li><p><strong>cluster:cpu_usage_cores:sum</strong></p></li>
+<li><p><strong>cluster:memory_usage_bytes:sum</strong></p></li>
+</ul>
+</div>
+<div class="section" id="importing-packages">
+<h2>Importing packages<a class="headerlink" href="#importing-packages" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">dt</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">boto3</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">urllib3</span>
+<span class="kn">from</span> <span class="nn">dotenv</span> <span class="kn">import</span> <span class="n">load_dotenv</span><span class="p">,</span> <span class="n">find_dotenv</span>
+
+<span class="kn">from</span> <span class="nn">prometheus_api_client</span> <span class="kn">import</span> <span class="n">PrometheusConnect</span><span class="p">,</span> <span class="n">MetricSnapshotDataFrame</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">urllib3</span><span class="o">.</span><span class="n">disable_warnings</span><span class="p">()</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">&quot;display.max_columns&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="n">load_dotenv</span><span class="p">(</span><span class="n">find_dotenv</span><span class="p">())</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="data-collection-from-bucket">
+<h2>Data Collection from bucket<a class="headerlink" href="#data-collection-from-bucket" title="Permalink to this headline">¶</a></h2>
+<p>Firstly, we extract the <code class="docutils literal notranslate"><span class="pre">image_layers</span></code> and <code class="docutils literal notranslate"><span class="pre">containers</span></code> dataset from the PLAYPEN bucket in order to get the list of <code class="docutils literal notranslate"><span class="pre">cluster_id</span></code> and <code class="docutils literal notranslate"><span class="pre">timestamp</span></code> from the corresponding <code class="docutils literal notranslate"><span class="pre">archive_path</span></code> given in the respective dataset.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># CEPH Bucket variables</span>
+<span class="n">s3_endpoint_url</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;S3_ENDPOINT&quot;</span><span class="p">)</span>
+<span class="n">s3_access_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;S3_ACCESS_KEY&quot;</span><span class="p">)</span>
+<span class="n">s3_secret_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;S3_SECRET_KEY&quot;</span><span class="p">)</span>
+<span class="n">s3_bucket</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;S3_BUCKET&quot;</span><span class="p">)</span>
+
+<span class="c1"># s3 resource to communicate with storage</span>
+<span class="n">s3</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span>
+    <span class="s2">&quot;s3&quot;</span><span class="p">,</span>
+    <span class="n">endpoint_url</span><span class="o">=</span><span class="n">s3_endpoint_url</span><span class="p">,</span>
+    <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">s3_access_key</span><span class="p">,</span>
+    <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">s3_secret_key</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># access the parquet file as an s3 object</span>
+
+<span class="n">obj1</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">Object</span><span class="p">(</span>
+    <span class="s2">&quot;DH-PLAYPEN&quot;</span><span class="p">,</span> <span class="s2">&quot;ccx/fingerprinting/image_layers/date=2021-05-12/2021-05-12.parquet&quot;</span>
+<span class="p">)</span>
+<span class="n">obj2</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">Object</span><span class="p">(</span>
+    <span class="s2">&quot;DH-PLAYPEN&quot;</span><span class="p">,</span> <span class="s2">&quot;ccx/fingerprinting/containers/date=2021-05-12/2021-05-12.parquet&quot;</span>
+<span class="p">)</span>
+<span class="n">obj3</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">Object</span><span class="p">(</span>
+    <span class="s2">&quot;DH-PLAYPEN&quot;</span><span class="p">,</span> <span class="s2">&quot;ccx/fingerprinting/image_layers/dataframe_image_id.parquet&quot;</span>
+<span class="p">)</span>
+<span class="n">obj4</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">Object</span><span class="p">(</span><span class="s2">&quot;DH-PLAYPEN&quot;</span><span class="p">,</span> <span class="s2">&quot;ccx/fingerprinting/containers/df_cont_image_id.parquet&quot;</span><span class="p">)</span>
+<span class="c1"># download the file into the buffer</span>
+<span class="n">buffer1</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
+<span class="n">obj1</span><span class="o">.</span><span class="n">download_fileobj</span><span class="p">(</span><span class="n">buffer1</span><span class="p">)</span>
+<span class="n">buffer2</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
+<span class="n">obj2</span><span class="o">.</span><span class="n">download_fileobj</span><span class="p">(</span><span class="n">buffer2</span><span class="p">)</span>
+
+<span class="c1"># read the buffer and create the dataframe</span>
+<span class="n">image_layers_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">buffer1</span><span class="p">)</span>
+<span class="n">containers_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">buffer2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="connect-to-prometheus">
+<h2>Connect to Prometheus<a class="headerlink" href="#connect-to-prometheus" title="Permalink to this headline">¶</a></h2>
+<p><strong>Connecting to Prometheus API client</strong></p>
+<p>We can refer to the <a class="reference external" href="https://help.datahub.redhat.com/docs/interacting-with-telemetry-data">data hub help page</a> in order to interact with the telemetry dataset. The metrics for the credentials for the prometheus can be fetched from the <a class="reference external" href="https://help.datahub.redhat.com/docs/interacting-with-telemetry-data">data hub help page</a>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">prom_url</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;PROM_URL&quot;</span><span class="p">)</span>
+<span class="n">prom_access_token</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;PROM_ACCESS_TOKEN&quot;</span><span class="p">)</span>
+
+<span class="n">PROM_URL</span> <span class="o">=</span> <span class="n">prom_url</span>
+<span class="n">PROM_ACCESS_TOKEN</span> <span class="o">=</span> <span class="n">prom_access_token</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># instantiate prometheus connector</span>
+<span class="n">pc</span> <span class="o">=</span> <span class="n">PrometheusConnect</span><span class="p">(</span>
+    <span class="n">url</span><span class="o">=</span><span class="n">PROM_URL</span><span class="p">,</span>
+    <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;bearer </span><span class="si">{</span><span class="n">PROM_ACCESS_TOKEN</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">},</span>
+    <span class="n">disable_ssl</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="getting-the-data-for-given-timestamp-and-cluster-id-for-image-layer-datadset">
+<h2>Getting the data for given <code class="docutils literal notranslate"><span class="pre">timestamp</span></code> and <code class="docutils literal notranslate"><span class="pre">cluster_id</span></code> for image layer datadset<a class="headerlink" href="#getting-the-data-for-given-timestamp-and-cluster-id-for-image-layer-datadset" title="Permalink to this headline">¶</a></h2>
+<p>We first extract the list of archive path and use the split method in order to get the information about the timestamp and cluster_id. We then use the Prometheus query in order to get the dataframe.</p>
+<div class="section" id="metric-name-workload-cpu-usage-cores-sum">
+<h3>Metric name: <code class="docutils literal notranslate"><span class="pre">workload:cpu_usage_cores:sum</span></code><a class="headerlink" href="#metric-name-workload-cpu-usage-cores-sum" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># listing the archive path</span>
+<span class="n">image_archive_path</span> <span class="o">=</span> <span class="n">image_layers_df</span><span class="o">.</span><span class="n">archive_path</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+
+<span class="n">df_image_cpu</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">image_archive_path</span><span class="p">[:]):</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">hours</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">mins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">sec</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">])</span>
+    <span class="n">cluster_pos</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span>
+        <span class="n">year</span><span class="o">=</span><span class="mi">2021</span><span class="p">,</span>
+        <span class="n">month</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">day</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+        <span class="n">hour</span><span class="o">=</span><span class="n">hours</span><span class="p">,</span>
+        <span class="n">minute</span><span class="o">=</span><span class="n">mins</span><span class="p">,</span>
+        <span class="n">second</span><span class="o">=</span><span class="n">sec</span><span class="p">,</span>
+        <span class="n">tzinfo</span><span class="o">=</span><span class="n">dt</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">MetricSnapshotDataFrame</span><span class="p">(</span>
+        <span class="n">pc</span><span class="o">.</span><span class="n">custom_query</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;workload:cpu_usage_cores:sum</span><span class="se">{{</span><span class="s1">_id=&quot;</span><span class="si">{</span><span class="n">cluster_pos</span><span class="si">}</span><span class="s1">&quot;</span><span class="se">}}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">ts</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()},</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">df_image_cpu</span> <span class="o">=</span> <span class="n">df_image_cpu</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">df_image_cpu</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 2802/2802 [00:43&lt;00:00, 64.18it/s]
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>__name__</th>
+      <th>_id</th>
+      <th>prometheus</th>
+      <th>receive</th>
+      <th>tenant_id</th>
+      <th>timestamp</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>workload:cpu_usage_cores:sum</td>
+      <td>00003d61-9db1-4757-9cd1-84df271daeb9</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620860062</td>
+      <td>0.03230751556666692</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>workload:cpu_usage_cores:sum</td>
+      <td>00351e6e-53ce-465e-9493-cf0cd2367049</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620852056</td>
+      <td>0.030943035959259964</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>workload:cpu_usage_cores:sum</td>
+      <td>003ba133-e754-4d5a-bc57-675b386d1f05</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620852942</td>
+      <td>0.23523091000370105</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>workload:cpu_usage_cores:sum</td>
+      <td>00479ead-b7fc-49c2-ae20-3990a9b3d08c</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620855643</td>
+      <td>0.029065674940740756</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>workload:cpu_usage_cores:sum</td>
+      <td>009ef697-17c5-431e-a5f5-42d93d9c6a5a</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620855709</td>
+      <td>0.0035705586481481486</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Total number of cluster_id in original image layer dataset :&quot;</span><span class="p">,</span>
+    <span class="n">image_layers_df</span><span class="o">.</span><span class="n">cluster_id</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of cluster_id for the extracted dataset :&quot;</span><span class="p">,</span> <span class="n">df_image_cpu</span><span class="o">.</span><span class="n">_id</span><span class="o">.</span><span class="n">nunique</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of timestamps :&quot;</span><span class="p">,</span> <span class="n">df_image_cpu</span><span class="o">.</span><span class="n">timestamp</span><span class="o">.</span><span class="n">nunique</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total number of cluster_id in original image layer dataset : 2802
+Number of cluster_id for the extracted dataset : 1850
+Number of timestamps : 1791
+</pre></div>
+</div>
+</div>
+</div>
+<p>For the metric,<code class="docutils literal notranslate"><span class="pre">workload:cpu_usage_cores:sum</span></code>, we observe that, out of 2802 cluster_id from the image layers dataset of insight operator workload. We could only extract the information for 1850 cluster_id, i.e, ~66% cluster_id from the telemetry database.</p>
+</div>
+<hr class="docutils" />
+<div class="section" id="metric-name-workload-memory-usage-bytes-sum">
+<h3>Metric name: <code class="docutils literal notranslate"><span class="pre">workload:memory_usage_bytes:sum</span></code><a class="headerlink" href="#metric-name-workload-memory-usage-bytes-sum" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_image_mem</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">image_archive_path</span><span class="p">[:]):</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">hours</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">mins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">sec</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">])</span>
+    <span class="n">cluster_pos</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span>
+        <span class="n">year</span><span class="o">=</span><span class="mi">2021</span><span class="p">,</span>
+        <span class="n">month</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">day</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+        <span class="n">hour</span><span class="o">=</span><span class="n">hours</span><span class="p">,</span>
+        <span class="n">minute</span><span class="o">=</span><span class="n">mins</span><span class="p">,</span>
+        <span class="n">second</span><span class="o">=</span><span class="n">sec</span><span class="p">,</span>
+        <span class="n">tzinfo</span><span class="o">=</span><span class="n">dt</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">MetricSnapshotDataFrame</span><span class="p">(</span>
+        <span class="n">pc</span><span class="o">.</span><span class="n">custom_query</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;workload:memory_usage_bytes:sum</span><span class="se">{{</span><span class="s1">_id=&quot;</span><span class="si">{</span><span class="n">cluster_pos</span><span class="si">}</span><span class="s1">&quot;</span><span class="se">}}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">ts</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()},</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">df_image_mem</span> <span class="o">=</span> <span class="n">df_image_mem</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">df_image_mem</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 2802/2802 [01:12&lt;00:00, 38.68it/s]
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>__name__</th>
+      <th>_id</th>
+      <th>prometheus</th>
+      <th>receive</th>
+      <th>tenant_id</th>
+      <th>timestamp</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>workload:memory_usage_bytes:sum</td>
+      <td>00003d61-9db1-4757-9cd1-84df271daeb9</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620860062</td>
+      <td>389971968</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>workload:memory_usage_bytes:sum</td>
+      <td>00351e6e-53ce-465e-9493-cf0cd2367049</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620852056</td>
+      <td>385421312</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>workload:memory_usage_bytes:sum</td>
+      <td>003ba133-e754-4d5a-bc57-675b386d1f05</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620852942</td>
+      <td>1190780928</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>workload:memory_usage_bytes:sum</td>
+      <td>00479ead-b7fc-49c2-ae20-3990a9b3d08c</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620855643</td>
+      <td>269168640</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>workload:memory_usage_bytes:sum</td>
+      <td>009ef697-17c5-431e-a5f5-42d93d9c6a5a</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620855709</td>
+      <td>83660800</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Total number of cluster_id in original image layer dataset :&quot;</span><span class="p">,</span>
+    <span class="n">image_layers_df</span><span class="o">.</span><span class="n">cluster_id</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of cluster_id for the extracted dataset :&quot;</span><span class="p">,</span> <span class="n">df_image_mem</span><span class="o">.</span><span class="n">_id</span><span class="o">.</span><span class="n">nunique</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of timestamps :&quot;</span><span class="p">,</span> <span class="n">df_image_mem</span><span class="o">.</span><span class="n">timestamp</span><span class="o">.</span><span class="n">nunique</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total number of cluster_id in original image layer dataset : 2802
+Number of cluster_id for the extracted dataset : 1805
+Number of timestamps : 1749
+</pre></div>
+</div>
+</div>
+</div>
+<p>For the metric,<code class="docutils literal notranslate"><span class="pre">workload:memory_usage_bytes:sum</span></code>, we observe that, out of 2802 cluster_id from the image layers dataset of insight operator workload. We could only extract the information for 1805 cluster_id, i.e, ~64.4% cluster_id from the telemetry database.</p>
+</div>
+<hr class="docutils" />
+<div class="section" id="metric-name-openshift-cpu-usage-cores-sum">
+<h3>Metric name: <code class="docutils literal notranslate"><span class="pre">openshift:cpu_usage_cores:sum</span></code><a class="headerlink" href="#metric-name-openshift-cpu-usage-cores-sum" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_image_open_cpu</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">image_archive_path</span><span class="p">[:]):</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">hours</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">mins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">sec</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">])</span>
+    <span class="n">cluster_pos</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span>
+        <span class="n">year</span><span class="o">=</span><span class="mi">2021</span><span class="p">,</span>
+        <span class="n">month</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">day</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+        <span class="n">hour</span><span class="o">=</span><span class="n">hours</span><span class="p">,</span>
+        <span class="n">minute</span><span class="o">=</span><span class="n">mins</span><span class="p">,</span>
+        <span class="n">second</span><span class="o">=</span><span class="n">sec</span><span class="p">,</span>
+        <span class="n">tzinfo</span><span class="o">=</span><span class="n">dt</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">MetricSnapshotDataFrame</span><span class="p">(</span>
+        <span class="n">pc</span><span class="o">.</span><span class="n">custom_query</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;openshift:cpu_usage_cores:sum</span><span class="se">{{</span><span class="s1">_id=&quot;</span><span class="si">{</span><span class="n">cluster_pos</span><span class="si">}</span><span class="s1">&quot;</span><span class="se">}}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">ts</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()},</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">df_image_open_cpu</span> <span class="o">=</span> <span class="n">df_image_open_cpu</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">df_image_open_cpu</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 2802/2802 [01:08&lt;00:00, 40.76it/s]
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>__name__</th>
+      <th>_id</th>
+      <th>prometheus</th>
+      <th>receive</th>
+      <th>tenant_id</th>
+      <th>timestamp</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>openshift:cpu_usage_cores:sum</td>
+      <td>00003d61-9db1-4757-9cd1-84df271daeb9</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620860062</td>
+      <td>1.9291393691359602</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>openshift:cpu_usage_cores:sum</td>
+      <td>00351e6e-53ce-465e-9493-cf0cd2367049</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620852056</td>
+      <td>1.7056283926121354</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>openshift:cpu_usage_cores:sum</td>
+      <td>003ba133-e754-4d5a-bc57-675b386d1f05</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620852942</td>
+      <td>2.5198167090408625</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>openshift:cpu_usage_cores:sum</td>
+      <td>00479ead-b7fc-49c2-ae20-3990a9b3d08c</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620855643</td>
+      <td>1.6697914679164034</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>openshift:cpu_usage_cores:sum</td>
+      <td>009ef697-17c5-431e-a5f5-42d93d9c6a5a</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620855709</td>
+      <td>3.497572298494714</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Total number of cluster_id in original image layer dataset :&quot;</span><span class="p">,</span>
+    <span class="n">image_layers_df</span><span class="o">.</span><span class="n">cluster_id</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Number of cluster_id for the extracted dataset :&quot;</span><span class="p">,</span> <span class="n">df_image_open_cpu</span><span class="o">.</span><span class="n">_id</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of timestamps :&quot;</span><span class="p">,</span> <span class="n">df_image_open_cpu</span><span class="o">.</span><span class="n">timestamp</span><span class="o">.</span><span class="n">nunique</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total number of cluster_id in original image layer dataset : 2802
+Number of cluster_id for the extracted dataset : 1845
+Number of timestamps : 1786
+</pre></div>
+</div>
+</div>
+</div>
+<p>For the metric,<code class="docutils literal notranslate"><span class="pre">openshift:cpu_usage_cores:sum</span></code>, we observe that, out of 2802 cluster_id from the image layers dataset of insight operator workload. We could only extract the information for 1845 cluster_id, i.e, ~65.8% cluster_id from the telemetry database.</p>
+</div>
+<hr class="docutils" />
+<div class="section" id="metric-name-openshift-memory-usage-bytes-sum">
+<h3>Metric name: <code class="docutils literal notranslate"><span class="pre">openshift:memory_usage_bytes:sum</span></code><a class="headerlink" href="#metric-name-openshift-memory-usage-bytes-sum" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_image_open_mem</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">image_archive_path</span><span class="p">[:]):</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">hours</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">mins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">sec</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">])</span>
+    <span class="n">cluster_pos</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span>
+        <span class="n">year</span><span class="o">=</span><span class="mi">2021</span><span class="p">,</span>
+        <span class="n">month</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">day</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+        <span class="n">hour</span><span class="o">=</span><span class="n">hours</span><span class="p">,</span>
+        <span class="n">minute</span><span class="o">=</span><span class="n">mins</span><span class="p">,</span>
+        <span class="n">second</span><span class="o">=</span><span class="n">sec</span><span class="p">,</span>
+        <span class="n">tzinfo</span><span class="o">=</span><span class="n">dt</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">MetricSnapshotDataFrame</span><span class="p">(</span>
+        <span class="n">pc</span><span class="o">.</span><span class="n">custom_query</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;openshift:memory_usage_bytes:sum</span><span class="se">{{</span><span class="s1">_id=&quot;</span><span class="si">{</span><span class="n">cluster_pos</span><span class="si">}</span><span class="s1">&quot;</span><span class="se">}}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">ts</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()},</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">df_image_open_mem</span> <span class="o">=</span> <span class="n">df_image_open_mem</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">df_image_open_mem</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 2802/2802 [01:06&lt;00:00, 42.11it/s]
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>__name__</th>
+      <th>_id</th>
+      <th>prometheus</th>
+      <th>receive</th>
+      <th>tenant_id</th>
+      <th>timestamp</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>openshift:memory_usage_bytes:sum</td>
+      <td>00003d61-9db1-4757-9cd1-84df271daeb9</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620860062</td>
+      <td>14560608256</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>openshift:memory_usage_bytes:sum</td>
+      <td>00351e6e-53ce-465e-9493-cf0cd2367049</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620852056</td>
+      <td>14386823168</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>openshift:memory_usage_bytes:sum</td>
+      <td>003ba133-e754-4d5a-bc57-675b386d1f05</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620852942</td>
+      <td>26840170496</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>openshift:memory_usage_bytes:sum</td>
+      <td>00479ead-b7fc-49c2-ae20-3990a9b3d08c</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620855643</td>
+      <td>13228613632</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>openshift:memory_usage_bytes:sum</td>
+      <td>009ef697-17c5-431e-a5f5-42d93d9c6a5a</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620855709</td>
+      <td>26006728704</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Total number of cluster_id in original image layer dataset :&quot;</span><span class="p">,</span>
+    <span class="n">image_layers_df</span><span class="o">.</span><span class="n">cluster_id</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Number of cluster_id for the extracted dataset :&quot;</span><span class="p">,</span> <span class="n">df_image_open_mem</span><span class="o">.</span><span class="n">_id</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of timestamps :&quot;</span><span class="p">,</span> <span class="n">df_image_open_mem</span><span class="o">.</span><span class="n">timestamp</span><span class="o">.</span><span class="n">nunique</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total number of cluster_id in original image layer dataset : 2802
+Number of cluster_id for the extracted dataset : 1805
+Number of timestamps : 1749
+</pre></div>
+</div>
+</div>
+</div>
+<p>For the metric,<code class="docutils literal notranslate"><span class="pre">openshift:memory_usage_bytes:sum</span></code>, we observe that, out of 2802 cluster_id from the image layers dataset of insight operator workload. We could only extract the information for 1805 cluster_id, i.e, ~64.4% cluster_id from the telemetry database.</p>
+</div>
+<hr class="docutils" />
+<div class="section" id="metric-name-cluster-cpu-usage-cores-sum">
+<h3>Metric name: <code class="docutils literal notranslate"><span class="pre">cluster:cpu_usage_cores:sum</span></code><a class="headerlink" href="#metric-name-cluster-cpu-usage-cores-sum" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_image_cluster_cpu</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">image_archive_path</span><span class="p">[:]):</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">hours</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">mins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">sec</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">])</span>
+    <span class="n">cluster_pos</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span>
+        <span class="n">year</span><span class="o">=</span><span class="mi">2021</span><span class="p">,</span>
+        <span class="n">month</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">day</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+        <span class="n">hour</span><span class="o">=</span><span class="n">hours</span><span class="p">,</span>
+        <span class="n">minute</span><span class="o">=</span><span class="n">mins</span><span class="p">,</span>
+        <span class="n">second</span><span class="o">=</span><span class="n">sec</span><span class="p">,</span>
+        <span class="n">tzinfo</span><span class="o">=</span><span class="n">dt</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">MetricSnapshotDataFrame</span><span class="p">(</span>
+        <span class="n">pc</span><span class="o">.</span><span class="n">custom_query</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;cluster:cpu_usage_cores:sum</span><span class="se">{{</span><span class="s1">_id=&quot;</span><span class="si">{</span><span class="n">cluster_pos</span><span class="si">}</span><span class="s1">&quot;</span><span class="se">}}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">ts</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()},</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">df_image_cluster_cpu</span> <span class="o">=</span> <span class="n">df_image_cluster_cpu</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">df_image_cluster_cpu</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 2802/2802 [01:18&lt;00:00, 35.50it/s]
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>__name__</th>
+      <th>_id</th>
+      <th>prometheus</th>
+      <th>receive</th>
+      <th>tenant_id</th>
+      <th>timestamp</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>cluster:cpu_usage_cores:sum</td>
+      <td>00003d61-9db1-4757-9cd1-84df271daeb9</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620860062</td>
+      <td>1.9614468847026272</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>cluster:cpu_usage_cores:sum</td>
+      <td>002663ad-bcf4-4c7c-9530-ecb351fe4001</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620825377</td>
+      <td>4.345714285714284</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>cluster:cpu_usage_cores:sum</td>
+      <td>0030e092-3def-4e7a-96b7-17d45ca102fd</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620812523</td>
+      <td>11.39365149650794</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>cluster:cpu_usage_cores:sum</td>
+      <td>00351e6e-53ce-465e-9493-cf0cd2367049</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620852056</td>
+      <td>1.7365714285713953</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>cluster:cpu_usage_cores:sum</td>
+      <td>003ba133-e754-4d5a-bc57-675b386d1f05</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620852942</td>
+      <td>2.7550476190445634</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Total number of cluster_id in original image layer dataset :&quot;</span><span class="p">,</span>
+    <span class="n">image_layers_df</span><span class="o">.</span><span class="n">cluster_id</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Number of cluster_id for the extracted dataset :&quot;</span><span class="p">,</span>
+    <span class="n">df_image_cluster_cpu</span><span class="o">.</span><span class="n">_id</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of timestamps :&quot;</span><span class="p">,</span> <span class="n">df_image_cluster_cpu</span><span class="o">.</span><span class="n">timestamp</span><span class="o">.</span><span class="n">nunique</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total number of cluster_id in original image layer dataset : 2802
+Number of cluster_id for the extracted dataset : 2624
+Number of timestamps : 2535
+</pre></div>
+</div>
+</div>
+</div>
+<p>For the metric,<code class="docutils literal notranslate"><span class="pre">cluster:cpu_usage_cores:sum</span></code>, we observe that, out of 2802 cluster_id from the image layers dataset of insight operator workload. We could only extract the information for 2624 cluster_id, i.e, ~93.6% cluster_id from the telemetry database.</p>
+</div>
+<hr class="docutils" />
+<div class="section" id="metric-name-cluster-memory-usage-bytes-sum">
+<h3>Metric name: <code class="docutils literal notranslate"><span class="pre">cluster:memory_usage_bytes:sum</span></code><a class="headerlink" href="#metric-name-cluster-memory-usage-bytes-sum" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_image_cluster_mem</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">image_archive_path</span><span class="p">[:]):</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">hours</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">mins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">sec</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">])</span>
+    <span class="n">cluster_pos</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span>
+        <span class="n">year</span><span class="o">=</span><span class="mi">2021</span><span class="p">,</span>
+        <span class="n">month</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">day</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+        <span class="n">hour</span><span class="o">=</span><span class="n">hours</span><span class="p">,</span>
+        <span class="n">minute</span><span class="o">=</span><span class="n">mins</span><span class="p">,</span>
+        <span class="n">second</span><span class="o">=</span><span class="n">sec</span><span class="p">,</span>
+        <span class="n">tzinfo</span><span class="o">=</span><span class="n">dt</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">MetricSnapshotDataFrame</span><span class="p">(</span>
+        <span class="n">pc</span><span class="o">.</span><span class="n">custom_query</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;cluster:memory_usage_bytes:sum</span><span class="se">{{</span><span class="s1">_id=&quot;</span><span class="si">{</span><span class="n">cluster_pos</span><span class="si">}</span><span class="s1">&quot;</span><span class="se">}}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">ts</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()},</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">df_image_cluster_mem</span> <span class="o">=</span> <span class="n">df_image_cluster_mem</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">df_image_cluster_mem</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 2802/2802 [01:04&lt;00:00, 43.19it/s]
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>__name__</th>
+      <th>_id</th>
+      <th>prometheus</th>
+      <th>receive</th>
+      <th>tenant_id</th>
+      <th>timestamp</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>cluster:memory_usage_bytes:sum</td>
+      <td>00003d61-9db1-4757-9cd1-84df271daeb9</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620860062</td>
+      <td>14950580224</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>cluster:memory_usage_bytes:sum</td>
+      <td>002663ad-bcf4-4c7c-9530-ecb351fe4001</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620825377</td>
+      <td>25248690176</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>cluster:memory_usage_bytes:sum</td>
+      <td>0030e092-3def-4e7a-96b7-17d45ca102fd</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620812523</td>
+      <td>29709115392</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>cluster:memory_usage_bytes:sum</td>
+      <td>00351e6e-53ce-465e-9493-cf0cd2367049</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620852056</td>
+      <td>14772244480</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>cluster:memory_usage_bytes:sum</td>
+      <td>003ba133-e754-4d5a-bc57-675b386d1f05</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620852942</td>
+      <td>28030951424</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Total number of cluster_id in original image layer dataset :&quot;</span><span class="p">,</span>
+    <span class="n">image_layers_df</span><span class="o">.</span><span class="n">cluster_id</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Number of cluster_id for the extracted dataset :&quot;</span><span class="p">,</span>
+    <span class="n">df_image_cluster_mem</span><span class="o">.</span><span class="n">_id</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of timestamps :&quot;</span><span class="p">,</span> <span class="n">df_image_cluster_mem</span><span class="o">.</span><span class="n">timestamp</span><span class="o">.</span><span class="n">nunique</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total number of cluster_id in original image layer dataset : 2802
+Number of cluster_id for the extracted dataset : 2673
+Number of timestamps : 2581
+</pre></div>
+</div>
+</div>
+</div>
+<p>For the metric,<code class="docutils literal notranslate"><span class="pre">cluster:memory_usage_bytes:sum</span></code>, we observe that, out of 2802 cluster_id from the image layers dataset of insight operator workload. We could only extract the information for 2673 cluster_id, i.e, ~95.3% cluster_id from the telemetry database.</p>
+<p>In the next section, we will do the <code class="docutils literal notranslate"><span class="pre">outer</span></code> merging for all the six datasets above. But first, since we have the common name for <code class="docutils literal notranslate"><span class="pre">value</span></code> column, we will rename them respectively.</p>
+</div>
+<div class="section" id="merging-datasets">
+<h3>Merging Datasets<a class="headerlink" href="#merging-datasets" title="Permalink to this headline">¶</a></h3>
+<p><strong>Renaming the value column for respective datasets:</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_image_cpu</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;value_workload:cpu_usage_cores:sum&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">df_image_mem</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;value_workload:memory_usage_bytes:sum&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">df_image_open_cpu</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;value_openshift:cpu_usage_cores:sum&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">df_image_open_mem</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;value_openshift:memory_usage_bytes:sum&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">df_image_cluster_cpu</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;value_cluster:cpu_usage_cores:sum&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">df_image_cluster_mem</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;value_cluster:memory_usage_bytes:sum&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Merging six dataset</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Arranging the dataset for merging</span>
+<span class="n">df_image_cpu_merge</span> <span class="o">=</span> <span class="n">df_image_cpu</span><span class="p">[</span>
+    <span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span> <span class="s2">&quot;value_workload:cpu_usage_cores:sum&quot;</span><span class="p">]</span>
+<span class="p">]</span>
+<span class="n">df_image_mem_merge</span> <span class="o">=</span> <span class="n">df_image_mem</span><span class="p">[</span>
+    <span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span> <span class="s2">&quot;value_workload:memory_usage_bytes:sum&quot;</span><span class="p">]</span>
+<span class="p">]</span>
+<span class="n">df_image_open_cpu_merge</span> <span class="o">=</span> <span class="n">df_image_open_cpu</span><span class="p">[</span>
+    <span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span> <span class="s2">&quot;value_openshift:cpu_usage_cores:sum&quot;</span><span class="p">]</span>
+<span class="p">]</span>
+<span class="n">df_image_open_mem_merge</span> <span class="o">=</span> <span class="n">df_image_open_mem</span><span class="p">[</span>
+    <span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span> <span class="s2">&quot;value_openshift:memory_usage_bytes:sum&quot;</span><span class="p">]</span>
+<span class="p">]</span>
+<span class="n">df_image_cluster_cpu_merge</span> <span class="o">=</span> <span class="n">df_image_cluster_cpu</span><span class="p">[</span>
+    <span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span> <span class="s2">&quot;value_cluster:cpu_usage_cores:sum&quot;</span><span class="p">]</span>
+<span class="p">]</span>
+<span class="n">df_image_cluster_mem_merge</span> <span class="o">=</span> <span class="n">df_image_cluster_mem</span><span class="p">[</span>
+    <span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span> <span class="s2">&quot;value_cluster:memory_usage_bytes:sum&quot;</span><span class="p">]</span>
+<span class="p">]</span>
+
+<span class="c1"># Merging</span>
+<span class="n">merge1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+    <span class="n">df_image_cpu_merge</span><span class="p">,</span> <span class="n">df_image_mem_merge</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span>
+<span class="p">)</span>
+<span class="n">merge2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">merge1</span><span class="p">,</span> <span class="n">df_image_open_cpu_merge</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span><span class="p">)</span>
+<span class="n">merge3</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">merge2</span><span class="p">,</span> <span class="n">df_image_open_mem_merge</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span><span class="p">)</span>
+<span class="n">merge4</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+    <span class="n">merge3</span><span class="p">,</span> <span class="n">df_image_cluster_cpu_merge</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span>
+<span class="p">)</span>
+<span class="n">telemeter_image_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+    <span class="n">merge4</span><span class="p">,</span> <span class="n">df_image_cluster_mem_merge</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">telemeter_image_data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>_id</th>
+      <th>timestamp</th>
+      <th>value_workload:cpu_usage_cores:sum</th>
+      <th>value_workload:memory_usage_bytes:sum</th>
+      <th>value_openshift:cpu_usage_cores:sum</th>
+      <th>value_openshift:memory_usage_bytes:sum</th>
+      <th>value_cluster:cpu_usage_cores:sum</th>
+      <th>value_cluster:memory_usage_bytes:sum</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>00003d61-9db1-4757-9cd1-84df271daeb9</td>
+      <td>1620860062</td>
+      <td>0.03230751556666692</td>
+      <td>389971968</td>
+      <td>1.9291393691359602</td>
+      <td>14560608256</td>
+      <td>1.9614468847026272</td>
+      <td>14950580224</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>00351e6e-53ce-465e-9493-cf0cd2367049</td>
+      <td>1620852056</td>
+      <td>0.030943035959259964</td>
+      <td>385421312</td>
+      <td>1.7056283926121354</td>
+      <td>14386823168</td>
+      <td>1.7365714285713953</td>
+      <td>14772244480</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>003ba133-e754-4d5a-bc57-675b386d1f05</td>
+      <td>1620852942</td>
+      <td>0.23523091000370105</td>
+      <td>1190780928</td>
+      <td>2.5198167090408625</td>
+      <td>26840170496</td>
+      <td>2.7550476190445634</td>
+      <td>28030951424</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>00479ead-b7fc-49c2-ae20-3990a9b3d08c</td>
+      <td>1620855643</td>
+      <td>0.029065674940740756</td>
+      <td>269168640</td>
+      <td>1.6697914679164034</td>
+      <td>13228613632</td>
+      <td>1.6988571428571442</td>
+      <td>13497782272</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>009ef697-17c5-431e-a5f5-42d93d9c6a5a</td>
+      <td>1620855709</td>
+      <td>0.0035705586481481486</td>
+      <td>83660800</td>
+      <td>3.497572298494714</td>
+      <td>26006728704</td>
+      <td>3.501142857142862</td>
+      <td>26090389504</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Now, we save the merged data in DH-PLAYPEN bucket.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Uploading the mapping dataset in the DH-PLAYPEN bucket</span>
+<span class="n">parquet_image_buffer</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
+<span class="n">telemeter_image_data</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">parquet_image_buffer</span><span class="p">)</span>
+<span class="n">s3_obj</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">Object</span><span class="p">(</span>
+    <span class="n">s3_bucket</span><span class="p">,</span> <span class="s2">&quot;ccx/fingerprinting/image_layers/telemeter_image_data.parquet&quot;</span>
+<span class="p">)</span>
+<span class="n">status</span> <span class="o">=</span> <span class="n">s3_obj</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">Body</span><span class="o">=</span><span class="n">parquet_image_buffer</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Total number of cluster_id in original image layer dataset :&quot;</span><span class="p">,</span>
+    <span class="n">image_layers_df</span><span class="o">.</span><span class="n">cluster_id</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Number of cluster_id for the extracted dataset :&quot;</span><span class="p">,</span>
+    <span class="n">telemeter_image_data</span><span class="o">.</span><span class="n">_id</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of timestamps :&quot;</span><span class="p">,</span> <span class="n">telemeter_image_data</span><span class="o">.</span><span class="n">timestamp</span><span class="o">.</span><span class="n">nunique</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total number of cluster_id in original image layer dataset : 2802
+Number of cluster_id for the extracted dataset : 2673
+Number of timestamps : 2581
+</pre></div>
+</div>
+</div>
+</div>
+<p>Hence, we observe that we have atleast one metric information for 2673 cluster_ids, i.e, ~95.3% of the total, from the image layers dataset.</p>
+</div>
+</div>
+<hr class="docutils" />
+<div class="section" id="getting-the-data-for-given-timestamp-and-cluster-id-for-container-dataset">
+<h2>Getting the data for given <code class="docutils literal notranslate"><span class="pre">timestamp</span></code> and <code class="docutils literal notranslate"><span class="pre">cluster_id</span></code> for Container dataset<a class="headerlink" href="#getting-the-data-for-given-timestamp-and-cluster-id-for-container-dataset" title="Permalink to this headline">¶</a></h2>
+<p>We first extract the list of archive path and use the split method in order to get the information about the timestamp and cluster_id. We then use the Prometheus query in order to get the dataframe.</p>
+<div class="section" id="id1">
+<h3>Metric name: <code class="docutils literal notranslate"><span class="pre">workload:cpu_usage_cores:sum</span></code><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># listing the archive path</span>
+<span class="n">cont_archive_path</span> <span class="o">=</span> <span class="n">containers_df</span><span class="o">.</span><span class="n">archive_path</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+
+<span class="n">df_cont_cpu</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">cont_archive_path</span><span class="p">[:]):</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">hours</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">mins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">sec</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">])</span>
+    <span class="n">cluster_pos</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span>
+        <span class="n">year</span><span class="o">=</span><span class="mi">2021</span><span class="p">,</span>
+        <span class="n">month</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">day</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+        <span class="n">hour</span><span class="o">=</span><span class="n">hours</span><span class="p">,</span>
+        <span class="n">minute</span><span class="o">=</span><span class="n">mins</span><span class="p">,</span>
+        <span class="n">second</span><span class="o">=</span><span class="n">sec</span><span class="p">,</span>
+        <span class="n">tzinfo</span><span class="o">=</span><span class="n">dt</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">MetricSnapshotDataFrame</span><span class="p">(</span>
+        <span class="n">pc</span><span class="o">.</span><span class="n">custom_query</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;workload:cpu_usage_cores:sum</span><span class="se">{{</span><span class="s1">_id=&quot;</span><span class="si">{</span><span class="n">cluster_pos</span><span class="si">}</span><span class="s1">&quot;</span><span class="se">}}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">ts</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()},</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">df_cont_cpu</span> <span class="o">=</span> <span class="n">df_cont_cpu</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">df_cont_cpu</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 2927/2927 [00:37&lt;00:00, 78.43it/s]
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>__name__</th>
+      <th>_id</th>
+      <th>prometheus</th>
+      <th>receive</th>
+      <th>tenant_id</th>
+      <th>timestamp</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>workload:cpu_usage_cores:sum</td>
+      <td>00003d61-9db1-4757-9cd1-84df271daeb9</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620860062</td>
+      <td>0.03230751556666692</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>workload:cpu_usage_cores:sum</td>
+      <td>00351e6e-53ce-465e-9493-cf0cd2367049</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620852056</td>
+      <td>0.030943035959259964</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>workload:cpu_usage_cores:sum</td>
+      <td>003ba133-e754-4d5a-bc57-675b386d1f05</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620852942</td>
+      <td>0.23523091000370105</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>workload:cpu_usage_cores:sum</td>
+      <td>00479ead-b7fc-49c2-ae20-3990a9b3d08c</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620855643</td>
+      <td>0.029065674940740756</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>workload:cpu_usage_cores:sum</td>
+      <td>009ef697-17c5-431e-a5f5-42d93d9c6a5a</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620855709</td>
+      <td>0.0035705586481481486</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Total number of cluster_id in original image layer dataset :&quot;</span><span class="p">,</span>
+    <span class="n">containers_df</span><span class="o">.</span><span class="n">cluster_id</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of cluster_id for the extracted dataset :&quot;</span><span class="p">,</span> <span class="n">df_cont_cpu</span><span class="o">.</span><span class="n">_id</span><span class="o">.</span><span class="n">nunique</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of timestamps :&quot;</span><span class="p">,</span> <span class="n">df_cont_cpu</span><span class="o">.</span><span class="n">timestamp</span><span class="o">.</span><span class="n">nunique</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total number of cluster_id in original image layer dataset : 2927
+Number of cluster_id for the extracted dataset : 1857
+Number of timestamps : 1798
+</pre></div>
+</div>
+</div>
+</div>
+<p>For the metric,<code class="docutils literal notranslate"><span class="pre">workload:cpu_usage_cores:sum</span></code>, we observe that, out of 2927 cluster_id from the container dataset of insight operator workload. We could only extract the information for 1857 cluster_id, i.e, ~63.4% cluster_id from the telemetry database.</p>
+</div>
+<hr class="docutils" />
+<div class="section" id="id2">
+<h3>Metric name: <code class="docutils literal notranslate"><span class="pre">workload:memory_usage_bytes:sum</span></code><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_cont_mem</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">cont_archive_path</span><span class="p">[:]):</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">hours</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">mins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">sec</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">])</span>
+    <span class="n">cluster_pos</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span>
+        <span class="n">year</span><span class="o">=</span><span class="mi">2021</span><span class="p">,</span>
+        <span class="n">month</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">day</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+        <span class="n">hour</span><span class="o">=</span><span class="n">hours</span><span class="p">,</span>
+        <span class="n">minute</span><span class="o">=</span><span class="n">mins</span><span class="p">,</span>
+        <span class="n">second</span><span class="o">=</span><span class="n">sec</span><span class="p">,</span>
+        <span class="n">tzinfo</span><span class="o">=</span><span class="n">dt</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">MetricSnapshotDataFrame</span><span class="p">(</span>
+        <span class="n">pc</span><span class="o">.</span><span class="n">custom_query</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;workload:memory_usage_bytes:sum</span><span class="se">{{</span><span class="s1">_id=&quot;</span><span class="si">{</span><span class="n">cluster_pos</span><span class="si">}</span><span class="s1">&quot;</span><span class="se">}}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">ts</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()},</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="n">df_cont_mem</span> <span class="o">=</span> <span class="n">df_cont_mem</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">df_cont_mem</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 2927/2927 [00:35&lt;00:00, 83.29it/s]
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>__name__</th>
+      <th>_id</th>
+      <th>prometheus</th>
+      <th>receive</th>
+      <th>tenant_id</th>
+      <th>timestamp</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>workload:memory_usage_bytes:sum</td>
+      <td>00003d61-9db1-4757-9cd1-84df271daeb9</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620860062</td>
+      <td>389971968</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>workload:memory_usage_bytes:sum</td>
+      <td>00351e6e-53ce-465e-9493-cf0cd2367049</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620852056</td>
+      <td>385421312</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>workload:memory_usage_bytes:sum</td>
+      <td>003ba133-e754-4d5a-bc57-675b386d1f05</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620852942</td>
+      <td>1190780928</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>workload:memory_usage_bytes:sum</td>
+      <td>00479ead-b7fc-49c2-ae20-3990a9b3d08c</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620855643</td>
+      <td>269168640</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>workload:memory_usage_bytes:sum</td>
+      <td>009ef697-17c5-431e-a5f5-42d93d9c6a5a</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620855709</td>
+      <td>83660800</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Total number of cluster_id in original image layer dataset :&quot;</span><span class="p">,</span>
+    <span class="n">containers_df</span><span class="o">.</span><span class="n">cluster_id</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of cluster_id for the extracted dataset :&quot;</span><span class="p">,</span> <span class="n">df_cont_mem</span><span class="o">.</span><span class="n">_id</span><span class="o">.</span><span class="n">nunique</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of timestamps :&quot;</span><span class="p">,</span> <span class="n">df_cont_mem</span><span class="o">.</span><span class="n">timestamp</span><span class="o">.</span><span class="n">nunique</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total number of cluster_id in original image layer dataset : 2927
+Number of cluster_id for the extracted dataset : 1811
+Number of timestamps : 1755
+</pre></div>
+</div>
+</div>
+</div>
+<p>For the metric,<code class="docutils literal notranslate"><span class="pre">workload:memory_usage_bytes:sum</span></code>, we observe that, out of 2927 cluster_id from the container dataset of insight operator workload. We could only extract the information for 1811 cluster_id, i.e, ~61.8% cluster_id from the telemetry database.</p>
+</div>
+<hr class="docutils" />
+<div class="section" id="id3">
+<h3>Metric name: <code class="docutils literal notranslate"><span class="pre">openshift:cpu_usage_cores:sum</span></code><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_cont_open_cpu</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">cont_archive_path</span><span class="p">[:]):</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">hours</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">mins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">sec</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">])</span>
+    <span class="n">cluster_pos</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span>
+        <span class="n">year</span><span class="o">=</span><span class="mi">2021</span><span class="p">,</span>
+        <span class="n">month</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">day</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+        <span class="n">hour</span><span class="o">=</span><span class="n">hours</span><span class="p">,</span>
+        <span class="n">minute</span><span class="o">=</span><span class="n">mins</span><span class="p">,</span>
+        <span class="n">second</span><span class="o">=</span><span class="n">sec</span><span class="p">,</span>
+        <span class="n">tzinfo</span><span class="o">=</span><span class="n">dt</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">MetricSnapshotDataFrame</span><span class="p">(</span>
+        <span class="n">pc</span><span class="o">.</span><span class="n">custom_query</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;openshift:cpu_usage_cores:sum</span><span class="se">{{</span><span class="s1">_id=&quot;</span><span class="si">{</span><span class="n">cluster_pos</span><span class="si">}</span><span class="s1">&quot;</span><span class="se">}}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">ts</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()},</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">df_cont_open_cpu</span> <span class="o">=</span> <span class="n">df_cont_open_cpu</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">df_cont_open_cpu</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 2927/2927 [00:43&lt;00:00, 66.68it/s]
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>__name__</th>
+      <th>_id</th>
+      <th>prometheus</th>
+      <th>receive</th>
+      <th>tenant_id</th>
+      <th>timestamp</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>openshift:cpu_usage_cores:sum</td>
+      <td>00003d61-9db1-4757-9cd1-84df271daeb9</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620860062</td>
+      <td>1.9291393691359602</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>openshift:cpu_usage_cores:sum</td>
+      <td>00351e6e-53ce-465e-9493-cf0cd2367049</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620852056</td>
+      <td>1.7056283926121354</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>openshift:cpu_usage_cores:sum</td>
+      <td>003ba133-e754-4d5a-bc57-675b386d1f05</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620852942</td>
+      <td>2.5198167090408625</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>openshift:cpu_usage_cores:sum</td>
+      <td>00479ead-b7fc-49c2-ae20-3990a9b3d08c</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620855643</td>
+      <td>1.6697914679164034</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>openshift:cpu_usage_cores:sum</td>
+      <td>009ef697-17c5-431e-a5f5-42d93d9c6a5a</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620855709</td>
+      <td>3.497572298494714</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Total number of cluster_id in original image layer dataset :&quot;</span><span class="p">,</span>
+    <span class="n">containers_df</span><span class="o">.</span><span class="n">cluster_id</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Number of cluster_id for the extracted dataset :&quot;</span><span class="p">,</span> <span class="n">df_cont_open_cpu</span><span class="o">.</span><span class="n">_id</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of timestamps :&quot;</span><span class="p">,</span> <span class="n">df_cont_open_cpu</span><span class="o">.</span><span class="n">timestamp</span><span class="o">.</span><span class="n">nunique</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total number of cluster_id in original image layer dataset : 2927
+Number of cluster_id for the extracted dataset : 1852
+Number of timestamps : 1793
+</pre></div>
+</div>
+</div>
+</div>
+<p>For the metric,<code class="docutils literal notranslate"><span class="pre">openshift:cpu_usage_cores:sum</span></code>, we observe that, out of 2927 cluster_id from the container dataset of insight operator workload. We could only extract the information for 1852 cluster_id, i.e, ~63.2% cluster_id from the telemetry database.</p>
+</div>
+<hr class="docutils" />
+<div class="section" id="id4">
+<h3>Metric name: <code class="docutils literal notranslate"><span class="pre">openshift:memory_usage_bytes:sum</span></code><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_cont_open_mem</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">cont_archive_path</span><span class="p">[:]):</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">hours</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">mins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">sec</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">])</span>
+    <span class="n">cluster_pos</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span>
+        <span class="n">year</span><span class="o">=</span><span class="mi">2021</span><span class="p">,</span>
+        <span class="n">month</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">day</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+        <span class="n">hour</span><span class="o">=</span><span class="n">hours</span><span class="p">,</span>
+        <span class="n">minute</span><span class="o">=</span><span class="n">mins</span><span class="p">,</span>
+        <span class="n">second</span><span class="o">=</span><span class="n">sec</span><span class="p">,</span>
+        <span class="n">tzinfo</span><span class="o">=</span><span class="n">dt</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">MetricSnapshotDataFrame</span><span class="p">(</span>
+        <span class="n">pc</span><span class="o">.</span><span class="n">custom_query</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;openshift:memory_usage_bytes:sum</span><span class="se">{{</span><span class="s1">_id=&quot;</span><span class="si">{</span><span class="n">cluster_pos</span><span class="si">}</span><span class="s1">&quot;</span><span class="se">}}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">ts</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()},</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">df_cont_open_mem</span> <span class="o">=</span> <span class="n">df_cont_open_mem</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">df_cont_open_mem</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 2927/2927 [00:51&lt;00:00, 56.81it/s]
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>__name__</th>
+      <th>_id</th>
+      <th>prometheus</th>
+      <th>receive</th>
+      <th>tenant_id</th>
+      <th>timestamp</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>openshift:memory_usage_bytes:sum</td>
+      <td>00003d61-9db1-4757-9cd1-84df271daeb9</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620860062</td>
+      <td>14560608256</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>openshift:memory_usage_bytes:sum</td>
+      <td>00351e6e-53ce-465e-9493-cf0cd2367049</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620852056</td>
+      <td>14386823168</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>openshift:memory_usage_bytes:sum</td>
+      <td>003ba133-e754-4d5a-bc57-675b386d1f05</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620852942</td>
+      <td>26840170496</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>openshift:memory_usage_bytes:sum</td>
+      <td>00479ead-b7fc-49c2-ae20-3990a9b3d08c</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620855643</td>
+      <td>13228613632</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>openshift:memory_usage_bytes:sum</td>
+      <td>009ef697-17c5-431e-a5f5-42d93d9c6a5a</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620855709</td>
+      <td>26006728704</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Total number of cluster_id in original image layer dataset :&quot;</span><span class="p">,</span>
+    <span class="n">containers_df</span><span class="o">.</span><span class="n">cluster_id</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Number of cluster_id for the extracted dataset :&quot;</span><span class="p">,</span> <span class="n">df_cont_open_mem</span><span class="o">.</span><span class="n">_id</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of timestamps :&quot;</span><span class="p">,</span> <span class="n">df_cont_open_mem</span><span class="o">.</span><span class="n">timestamp</span><span class="o">.</span><span class="n">nunique</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total number of cluster_id in original image layer dataset : 2927
+Number of cluster_id for the extracted dataset : 1811
+Number of timestamps : 1755
+</pre></div>
+</div>
+</div>
+</div>
+<p>For the metric,<code class="docutils literal notranslate"><span class="pre">openshift:memory_usage_bytes:sum</span></code>, we observe that, out of 2927 cluster_id from the container dataset of insight operator workload. We could only extract the information for 1811 cluster_id, i.e, ~61.8% cluster_id from the telemetry database.</p>
+</div>
+<hr class="docutils" />
+<div class="section" id="id5">
+<h3>Metric name: <code class="docutils literal notranslate"><span class="pre">cluster:cpu_usage_cores:sum</span></code><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_cont_cluster_cpu</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">cont_archive_path</span><span class="p">[:]):</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">hours</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">mins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">sec</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">])</span>
+    <span class="n">cluster_pos</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span>
+        <span class="n">year</span><span class="o">=</span><span class="mi">2021</span><span class="p">,</span>
+        <span class="n">month</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">day</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+        <span class="n">hour</span><span class="o">=</span><span class="n">hours</span><span class="p">,</span>
+        <span class="n">minute</span><span class="o">=</span><span class="n">mins</span><span class="p">,</span>
+        <span class="n">second</span><span class="o">=</span><span class="n">sec</span><span class="p">,</span>
+        <span class="n">tzinfo</span><span class="o">=</span><span class="n">dt</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">MetricSnapshotDataFrame</span><span class="p">(</span>
+        <span class="n">pc</span><span class="o">.</span><span class="n">custom_query</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;cluster:cpu_usage_cores:sum</span><span class="se">{{</span><span class="s1">_id=&quot;</span><span class="si">{</span><span class="n">cluster_pos</span><span class="si">}</span><span class="s1">&quot;</span><span class="se">}}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">ts</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()},</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">df_cont_cluster_cpu</span> <span class="o">=</span> <span class="n">df_cont_cluster_cpu</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">df_cont_cluster_cpu</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 2927/2927 [01:00&lt;00:00, 48.78it/s]
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>__name__</th>
+      <th>_id</th>
+      <th>prometheus</th>
+      <th>receive</th>
+      <th>tenant_id</th>
+      <th>timestamp</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>cluster:cpu_usage_cores:sum</td>
+      <td>00003d61-9db1-4757-9cd1-84df271daeb9</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620860062</td>
+      <td>1.9614468847026272</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>cluster:cpu_usage_cores:sum</td>
+      <td>002663ad-bcf4-4c7c-9530-ecb351fe4001</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620825377</td>
+      <td>4.345714285714284</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>cluster:cpu_usage_cores:sum</td>
+      <td>0030e092-3def-4e7a-96b7-17d45ca102fd</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620812523</td>
+      <td>11.39365149650794</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>cluster:cpu_usage_cores:sum</td>
+      <td>00351e6e-53ce-465e-9493-cf0cd2367049</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620852056</td>
+      <td>1.7365714285713953</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>cluster:cpu_usage_cores:sum</td>
+      <td>003ba133-e754-4d5a-bc57-675b386d1f05</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620852942</td>
+      <td>2.7550476190445634</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Total number of cluster_id in original image layer dataset :&quot;</span><span class="p">,</span>
+    <span class="n">containers_df</span><span class="o">.</span><span class="n">cluster_id</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Number of cluster_id for the extracted dataset :&quot;</span><span class="p">,</span>
+    <span class="n">df_cont_cluster_cpu</span><span class="o">.</span><span class="n">_id</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of timestamps :&quot;</span><span class="p">,</span> <span class="n">df_cont_cluster_cpu</span><span class="o">.</span><span class="n">timestamp</span><span class="o">.</span><span class="n">nunique</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total number of cluster_id in original image layer dataset : 2927
+Number of cluster_id for the extracted dataset : 2649
+Number of timestamps : 2560
+</pre></div>
+</div>
+</div>
+</div>
+<p>For the metric,<code class="docutils literal notranslate"><span class="pre">cluster:cpu_usage_cores:sum</span></code>, we observe that, out of 2927 cluster_id from the container dataset of insight operator workload. We could only extract the information for 2649 cluster_id, i.e, ~90.5% cluster_id from the telemetry database.</p>
+</div>
+<hr class="docutils" />
+<div class="section" id="id6">
+<h3>Metric name: <code class="docutils literal notranslate"><span class="pre">cluster:memory_usage_bytes:sum</span></code><a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_cont_cluster_mem</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">cont_archive_path</span><span class="p">[:]):</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">hours</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">])</span>
+    <span class="n">mins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">sec</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">6</span><span class="p">])</span>
+    <span class="n">cluster_pos</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="mi">3</span><span class="p">]</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span>
+        <span class="n">year</span><span class="o">=</span><span class="mi">2021</span><span class="p">,</span>
+        <span class="n">month</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+        <span class="n">day</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+        <span class="n">hour</span><span class="o">=</span><span class="n">hours</span><span class="p">,</span>
+        <span class="n">minute</span><span class="o">=</span><span class="n">mins</span><span class="p">,</span>
+        <span class="n">second</span><span class="o">=</span><span class="n">sec</span><span class="p">,</span>
+        <span class="n">tzinfo</span><span class="o">=</span><span class="n">dt</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">MetricSnapshotDataFrame</span><span class="p">(</span>
+        <span class="n">pc</span><span class="o">.</span><span class="n">custom_query</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;cluster:memory_usage_bytes:sum</span><span class="se">{{</span><span class="s1">_id=&quot;</span><span class="si">{</span><span class="n">cluster_pos</span><span class="si">}</span><span class="s1">&quot;</span><span class="se">}}</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="n">ts</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()},</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">df_cont_cluster_mem</span> <span class="o">=</span> <span class="n">df_cont_cluster_mem</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">df_cont_cluster_mem</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>100%|██████████| 2927/2927 [00:50&lt;00:00, 57.88it/s]
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>__name__</th>
+      <th>_id</th>
+      <th>prometheus</th>
+      <th>receive</th>
+      <th>tenant_id</th>
+      <th>timestamp</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>cluster:memory_usage_bytes:sum</td>
+      <td>00003d61-9db1-4757-9cd1-84df271daeb9</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620860062</td>
+      <td>14950580224</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>cluster:memory_usage_bytes:sum</td>
+      <td>002663ad-bcf4-4c7c-9530-ecb351fe4001</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620825377</td>
+      <td>25248690176</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>cluster:memory_usage_bytes:sum</td>
+      <td>0030e092-3def-4e7a-96b7-17d45ca102fd</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620812523</td>
+      <td>29709115392</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>cluster:memory_usage_bytes:sum</td>
+      <td>00351e6e-53ce-465e-9493-cf0cd2367049</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620852056</td>
+      <td>14772244480</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>cluster:memory_usage_bytes:sum</td>
+      <td>003ba133-e754-4d5a-bc57-675b386d1f05</td>
+      <td>openshift-monitoring/k8s</td>
+      <td>true</td>
+      <td>FB870BF3-9F3A-44FF-9BF7-D7A047A52F43</td>
+      <td>1620852942</td>
+      <td>28030951424</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Total number of cluster_id in original image layer dataset :&quot;</span><span class="p">,</span>
+    <span class="n">containers_df</span><span class="o">.</span><span class="n">cluster_id</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Number of cluster_id for the extracted dataset :&quot;</span><span class="p">,</span>
+    <span class="n">df_cont_cluster_mem</span><span class="o">.</span><span class="n">_id</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of timestamps :&quot;</span><span class="p">,</span> <span class="n">df_cont_cluster_mem</span><span class="o">.</span><span class="n">timestamp</span><span class="o">.</span><span class="n">nunique</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total number of cluster_id in original image layer dataset : 2927
+Number of cluster_id for the extracted dataset : 2697
+Number of timestamps : 2605
+</pre></div>
+</div>
+</div>
+</div>
+<p>For the metric,<code class="docutils literal notranslate"><span class="pre">cluster:memory_usage_bytes:sum</span></code>, we observe that, out of 2927 cluster_id from the container dataset of insight operator workload. We could only extract the information for 2697 cluster_id, i.e, ~92.1% cluster_id from the telemetry database.</p>
+<p>In the next section, we will merge do the <code class="docutils literal notranslate"><span class="pre">outer</span></code> merging for all the six datasets above. But first, since we have the common name for <code class="docutils literal notranslate"><span class="pre">value</span></code> column, we will rename them respectively.</p>
+</div>
+<div class="section" id="id7">
+<h3>Merging Datasets<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p><strong>Renaming the value column for respective datasets:</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_cont_cpu</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;value_workload:cpu_usage_cores:sum&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="n">df_cont_mem</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;value_workload:memory_usage_bytes:sum&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="n">df_cont_open_cpu</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;value_openshift:cpu_usage_cores:sum&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="n">df_cont_open_mem</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;value_openshift:memory_usage_bytes:sum&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="n">df_cont_cluster_cpu</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;value_cluster:cpu_usage_cores:sum&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="n">df_cont_cluster_mem</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span>
+    <span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;value_cluster:memory_usage_bytes:sum&quot;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Arranging the dataset for merging</span>
+<span class="n">df_cont_cpu_merge</span> <span class="o">=</span> <span class="n">df_cont_cpu</span><span class="p">[</span>
+    <span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span> <span class="s2">&quot;value_workload:cpu_usage_cores:sum&quot;</span><span class="p">]</span>
+<span class="p">]</span>
+<span class="n">df_cont_mem_merge</span> <span class="o">=</span> <span class="n">df_cont_mem</span><span class="p">[</span>
+    <span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span> <span class="s2">&quot;value_workload:memory_usage_bytes:sum&quot;</span><span class="p">]</span>
+<span class="p">]</span>
+<span class="n">df_cont_open_cpu_merge</span> <span class="o">=</span> <span class="n">df_cont_open_cpu</span><span class="p">[</span>
+    <span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span> <span class="s2">&quot;value_openshift:cpu_usage_cores:sum&quot;</span><span class="p">]</span>
+<span class="p">]</span>
+<span class="n">df_cont_open_mem_merge</span> <span class="o">=</span> <span class="n">df_cont_open_mem</span><span class="p">[</span>
+    <span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span> <span class="s2">&quot;value_openshift:memory_usage_bytes:sum&quot;</span><span class="p">]</span>
+<span class="p">]</span>
+<span class="n">df_cont_cluster_cpu_merge</span> <span class="o">=</span> <span class="n">df_cont_cluster_cpu</span><span class="p">[</span>
+    <span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span> <span class="s2">&quot;value_cluster:cpu_usage_cores:sum&quot;</span><span class="p">]</span>
+<span class="p">]</span>
+<span class="n">df_cont_cluster_mem_merge</span> <span class="o">=</span> <span class="n">df_cont_cluster_mem</span><span class="p">[</span>
+    <span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">,</span> <span class="s2">&quot;value_cluster:memory_usage_bytes:sum&quot;</span><span class="p">]</span>
+<span class="p">]</span>
+
+<span class="c1"># Merging</span>
+<span class="n">merge1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+    <span class="n">df_cont_cpu_merge</span><span class="p">,</span> <span class="n">df_cont_mem_merge</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span>
+<span class="p">)</span>
+<span class="n">merge2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">merge1</span><span class="p">,</span> <span class="n">df_cont_open_cpu_merge</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span><span class="p">)</span>
+<span class="n">merge3</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">merge2</span><span class="p">,</span> <span class="n">df_cont_open_mem_merge</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span><span class="p">)</span>
+<span class="n">merge4</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+    <span class="n">merge3</span><span class="p">,</span> <span class="n">df_cont_cluster_cpu_merge</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span>
+<span class="p">)</span>
+<span class="n">telemeter_cont_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+    <span class="n">merge4</span><span class="p">,</span> <span class="n">df_cont_cluster_mem_merge</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;_id&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamp&quot;</span><span class="p">],</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">telemeter_cont_data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>_id</th>
+      <th>timestamp</th>
+      <th>value_workload:cpu_usage_cores:sum</th>
+      <th>value_workload:memory_usage_bytes:sum</th>
+      <th>value_openshift:cpu_usage_cores:sum</th>
+      <th>value_openshift:memory_usage_bytes:sum</th>
+      <th>value_cluster:cpu_usage_cores:sum</th>
+      <th>value_cluster:memory_usage_bytes:sum</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>00003d61-9db1-4757-9cd1-84df271daeb9</td>
+      <td>1620860062</td>
+      <td>0.03230751556666692</td>
+      <td>389971968</td>
+      <td>1.9291393691359602</td>
+      <td>14560608256</td>
+      <td>1.9614468847026272</td>
+      <td>14950580224</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>00351e6e-53ce-465e-9493-cf0cd2367049</td>
+      <td>1620852056</td>
+      <td>0.030943035959259964</td>
+      <td>385421312</td>
+      <td>1.7056283926121354</td>
+      <td>14386823168</td>
+      <td>1.7365714285713953</td>
+      <td>14772244480</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>003ba133-e754-4d5a-bc57-675b386d1f05</td>
+      <td>1620852942</td>
+      <td>0.23523091000370105</td>
+      <td>1190780928</td>
+      <td>2.5198167090408625</td>
+      <td>26840170496</td>
+      <td>2.7550476190445634</td>
+      <td>28030951424</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>00479ead-b7fc-49c2-ae20-3990a9b3d08c</td>
+      <td>1620855643</td>
+      <td>0.029065674940740756</td>
+      <td>269168640</td>
+      <td>1.6697914679164034</td>
+      <td>13228613632</td>
+      <td>1.6988571428571442</td>
+      <td>13497782272</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>009ef697-17c5-431e-a5f5-42d93d9c6a5a</td>
+      <td>1620855709</td>
+      <td>0.0035705586481481486</td>
+      <td>83660800</td>
+      <td>3.497572298494714</td>
+      <td>26006728704</td>
+      <td>3.501142857142862</td>
+      <td>26090389504</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Now, saving the merged dataset in DH-PLAYPEN bucket.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Uploading the mapping dataset in the DH-PLAYPEN bucket</span>
+<span class="n">parquet_cont_buffer</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
+<span class="n">telemeter_cont_data</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">parquet_cont_buffer</span><span class="p">)</span>
+<span class="n">s3_obj</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">Object</span><span class="p">(</span>
+    <span class="n">s3_bucket</span><span class="p">,</span> <span class="s2">&quot;ccx/fingerprinting/containers/telemeter_cont_data.parquet&quot;</span>
+<span class="p">)</span>
+<span class="n">status</span> <span class="o">=</span> <span class="n">s3_obj</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">Body</span><span class="o">=</span><span class="n">parquet_cont_buffer</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Total number of cluster_id in original image layer dataset :&quot;</span><span class="p">,</span>
+    <span class="n">containers_df</span><span class="o">.</span><span class="n">cluster_id</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="s2">&quot;Number of cluster_id for the extracted dataset :&quot;</span><span class="p">,</span>
+    <span class="n">telemeter_cont_data</span><span class="o">.</span><span class="n">_id</span><span class="o">.</span><span class="n">nunique</span><span class="p">(),</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of timestamps :&quot;</span><span class="p">,</span> <span class="n">telemeter_cont_data</span><span class="o">.</span><span class="n">timestamp</span><span class="o">.</span><span class="n">nunique</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total number of cluster_id in original image layer dataset : 2927
+Number of cluster_id for the extracted dataset : 2698
+Number of timestamps : 2606
+</pre></div>
+</div>
+</div>
+</div>
+<p>Hence, we observe that we have atleast one metric information for 2698 cluster_ids, i.e, ~92.1% of the total, from the image layers dataset.</p>
+</div>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h2>
+<p>These information are now integrated with the workload dataset. The next step is to perform an EDA and then apply clustering techniques to the final integrated dataset.</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+
+
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="pyxis_mapping.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Mapping Image SHA to Image Name using Pyxis database</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="EDA_workload_demo.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Exploratory Data Analysis</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+
+          By AIOps<br/>
+
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>

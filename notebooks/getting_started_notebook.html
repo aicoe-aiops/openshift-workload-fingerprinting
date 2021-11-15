@@ -1,0 +1,794 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Getting started: Introducing workload data &#8212; OpenShift Workload Fingerprinting</title>
+
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+
+
+
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script>
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Mapping Image SHA to Image Name using Pyxis database" href="pyxis_mapping.html" />
+    <link rel="prev" title="Relevant Papers related to Fingerprinting Workloads" href="../docs/Relevant_papers.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+
+
+    <!-- Google Analytics -->
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+
+    <div class="container-fluid" id="banner"></div>
+
+
+
+    <div class="container-xl">
+      <div class="row">
+
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+
+
+
+      <h1 class="site-logo" id="site-title">OpenShift Workload Fingerprinting</h1>
+
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../README.html">
+   Understanding Workloads in OpenShift
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Previous Work Done
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../docs/Relevant_papers.html">
+   Relevant Papers related to Fingerprinting Workloads
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Getting Started
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Getting started: Introducing workload data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="pyxis_mapping.html">
+   Mapping Image SHA to Image Name using Pyxis database
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="Data_collection_from_telemetry.html">
+   Extracting the Telemetry Info for Clusters in Workload Dataset
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Exploratory Data Analysis
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="EDA_workload_demo.html">
+   Exploratory Data Analysis
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  ML Clustering
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="ML_clustering_part2.html">
+   ML Clustering
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+
+
+
+
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/notebooks/getting_started_notebook.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/aicoe-aiops/openshift-workload-fingerprinting"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/aicoe-aiops/openshift-workload-fingerprinting/issues/new?title=Issue%20on%20page%20%2Fnotebooks/getting_started_notebook.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+
+        <a class="binder-button" href=" /v2/gh/aicoe-aiops/openshift-workload-fingerprinting/master?urlpath=lab/tree/notebooks/getting_started_notebook.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+
+
+        <a class="jupyterhub-button" href="https://jupyterhub-opf-jupyterhub.apps.smaug.na.operate-first.cloud/hub/user-redirect/git-pull?repo=https://github.com/aicoe-aiops/openshift-workload-fingerprinting&urlpath=lab/tree/openshift-workload-fingerprinting/notebooks/getting_started_notebook.ipynb&branch=master"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch JupyterHub" data-toggle="tooltip"
+                data-placement="left"><img class="jupyterhub-button-logo"
+                    src="../_static/images/logo_jupyterhub.svg"
+                    alt="Interact on JupyterHub">JupyterHub</button></a>
+
+
+
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#data-collection">
+   Data Collection
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#image-layers-dataset">
+     Image Layers Dataset
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#inspect-the-image-layers-data">
+       Inspect the Image Layers Data
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#containers-dataset">
+     Containers Dataset
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#inspecting-the-container-dataset">
+       Inspecting the Container Dataset
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#conclusion">
+   Conclusion
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+
+              <div>
+
+  <div class="tex2jax_ignore mathjax_ignore section" id="getting-started-introducing-workload-data">
+<h1>Getting started: Introducing workload data<a class="headerlink" href="#getting-started-introducing-workload-data" title="Permalink to this headline">¶</a></h1>
+<p>As a data scientist, in order to approach the analysis, we first need to have a knowledge about the data-set we will be working on. The objective of this notebook is to take a quick look at the data to understand what kind of information we have captured.</p>
+<p>The goal is to collect and analyse the workload data from the clusters. Insight operator is collecting the workload data from the 4.8+ clusters. The data can be found in the <a class="reference external" href="https://github.com/openshift/insights-operator/blob/master/docs/insights-archive-sample/config/workload_info.json">Insight Operator Archive</a>, which has two kinds of information. The image_layers and containers information.</p>
+<div class="section" id="data-collection">
+<h2>Data Collection<a class="headerlink" href="#data-collection" title="Permalink to this headline">¶</a></h2>
+<p>Here we import the two kinds of dataset from the DH-PLAYPEN bucket.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">boto3</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">dotenv</span> <span class="kn">import</span> <span class="n">load_dotenv</span><span class="p">,</span> <span class="n">find_dotenv</span>
+
+<span class="n">load_dotenv</span><span class="p">(</span><span class="n">find_dotenv</span><span class="p">())</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># CEPH Bucket variables</span>
+<span class="n">s3_endpoint_url</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;S3_ENDPOINT&quot;</span><span class="p">)</span>
+<span class="n">s3_access_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;S3_ACCESS_KEY&quot;</span><span class="p">)</span>
+<span class="n">s3_secret_key</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;S3_SECRET_KEY&quot;</span><span class="p">)</span>
+<span class="n">s3_bucket</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;S3_BUCKET&quot;</span><span class="p">)</span>
+
+<span class="c1"># s3 resource to communicate with storage</span>
+<span class="n">s3</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">resource</span><span class="p">(</span>
+    <span class="s2">&quot;s3&quot;</span><span class="p">,</span>
+    <span class="n">endpoint_url</span><span class="o">=</span><span class="n">s3_endpoint_url</span><span class="p">,</span>
+    <span class="n">aws_access_key_id</span><span class="o">=</span><span class="n">s3_access_key</span><span class="p">,</span>
+    <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="n">s3_secret_key</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># access the parquet file as an s3 object</span>
+
+<span class="n">obj1</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">Object</span><span class="p">(</span>
+    <span class="s2">&quot;DH-PLAYPEN&quot;</span><span class="p">,</span> <span class="s2">&quot;ccx/fingerprinting/image_layers/date=2021-05-12/2021-05-12.parquet&quot;</span>
+<span class="p">)</span>
+<span class="n">obj2</span> <span class="o">=</span> <span class="n">s3</span><span class="o">.</span><span class="n">Object</span><span class="p">(</span>
+    <span class="s2">&quot;DH-PLAYPEN&quot;</span><span class="p">,</span> <span class="s2">&quot;ccx/fingerprinting/containers/date=2021-05-12/2021-05-12.parquet&quot;</span>
+<span class="p">)</span>
+<span class="c1"># download the file into the buffer</span>
+<span class="n">buffer1</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
+<span class="n">obj1</span><span class="o">.</span><span class="n">download_fileobj</span><span class="p">(</span><span class="n">buffer1</span><span class="p">)</span>
+<span class="n">buffer2</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
+<span class="n">obj2</span><span class="o">.</span><span class="n">download_fileobj</span><span class="p">(</span><span class="n">buffer2</span><span class="p">)</span>
+
+<span class="c1"># read the buffer and create the dataframe</span>
+<span class="n">image_layers_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">buffer1</span><span class="p">)</span>
+<span class="n">containers_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">buffer2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="image-layers-dataset">
+<h3>Image Layers Dataset<a class="headerlink" href="#image-layers-dataset" title="Permalink to this headline">¶</a></h3>
+<p>An overview of Image layers dataset can be seen in the dataframe below.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">image_layers_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>cluster_id</th>
+      <th>image_id</th>
+      <th>layer_image_id</th>
+      <th>layer_image_level</th>
+      <th>first_command</th>
+      <th>first_arg</th>
+      <th>archive_path</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>00003d61-9db1-4757-9cd1-84df271daeb9</td>
+      <td>sha256:337c22cabe530213b14965f9ea69a92dbeb5104...</td>
+      <td>sha256:9ebb302e1fb002fb643091710dac46f8258781d...</td>
+      <td>0</td>
+      <td>icTsn2s_EIax</td>
+      <td>2v1NneeWoS_9</td>
+      <td>archives/compressed/00/00003d61-9db1-4757-9cd1...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>00003d61-9db1-4757-9cd1-84df271daeb9</td>
+      <td>sha256:337c22cabe530213b14965f9ea69a92dbeb5104...</td>
+      <td>sha256:a74396a32e85c2feeedf76052ed3297859810c8...</td>
+      <td>1</td>
+      <td>icTsn2s_EIax</td>
+      <td>2v1NneeWoS_9</td>
+      <td>archives/compressed/00/00003d61-9db1-4757-9cd1...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>00003d61-9db1-4757-9cd1-84df271daeb9</td>
+      <td>sha256:337c22cabe530213b14965f9ea69a92dbeb5104...</td>
+      <td>sha256:7db62383a7470afbacfc0fab55d5a182e3c5fa2...</td>
+      <td>2</td>
+      <td>icTsn2s_EIax</td>
+      <td>2v1NneeWoS_9</td>
+      <td>archives/compressed/00/00003d61-9db1-4757-9cd1...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>00003d61-9db1-4757-9cd1-84df271daeb9</td>
+      <td>sha256:337c22cabe530213b14965f9ea69a92dbeb5104...</td>
+      <td>sha256:f24250419f728db23957454976d6d38b679a349...</td>
+      <td>3</td>
+      <td>icTsn2s_EIax</td>
+      <td>2v1NneeWoS_9</td>
+      <td>archives/compressed/00/00003d61-9db1-4757-9cd1...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>00003d61-9db1-4757-9cd1-84df271daeb9</td>
+      <td>sha256:337c22cabe530213b14965f9ea69a92dbeb5104...</td>
+      <td>sha256:267f7bb0f5dcf1b83f8ce89831d05f3a44a3abe...</td>
+      <td>4</td>
+      <td>icTsn2s_EIax</td>
+      <td>2v1NneeWoS_9</td>
+      <td>archives/compressed/00/00003d61-9db1-4757-9cd1...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="section" id="inspect-the-image-layers-data">
+<h4>Inspect the Image Layers Data<a class="headerlink" href="#inspect-the-image-layers-data" title="Permalink to this headline">¶</a></h4>
+<p>We inspect the image layers data to see the kind of information we have access to.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">image_layers_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>cluster_id                        00003d61-9db1-4757-9cd1-84df271daeb9
+image_id             sha256:337c22cabe530213b14965f9ea69a92dbeb5104...
+layer_image_id       sha256:a74396a32e85c2feeedf76052ed3297859810c8...
+layer_image_level                                                    1
+first_command                                             icTsn2s_EIax
+first_arg                                                 2v1NneeWoS_9
+archive_path         archives/compressed/00/00003d61-9db1-4757-9cd1...
+Name: 1, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Available fields:</strong></p>
+<ul class="simple">
+<li><p><strong>cluster_id</strong>: id of the cluster</p></li>
+<li><p><strong>image_id</strong>: provide the ‘sha’ of the image that the container is running.</p></li>
+<li><p><strong>layer_image_id</strong>: provide the ‘sha’ of the image_layers that is linked to image id.</p></li>
+<li><p><strong>layer_image_level</strong>: order of the image layer.</p></li>
+<li><p><strong>first_command</strong>: first command in that image.</p></li>
+<li><p><strong>first_arg</strong>: first argument in that image. We do not have information about the kind of first command and first argument provided, but we can compare if the two image runs the same command/argument.</p></li>
+<li><p><strong>archive_path</strong>: path to the archive from which the images are extracted.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="containers-dataset">
+<h3>Containers Dataset<a class="headerlink" href="#containers-dataset" title="Permalink to this headline">¶</a></h3>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">containers_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>cluster_id</th>
+      <th>namespace</th>
+      <th>shape</th>
+      <th>shape_instances</th>
+      <th>image_id</th>
+      <th>first_command</th>
+      <th>first_arg</th>
+      <th>init_container</th>
+      <th>archive_path</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>00003d61-9db1-4757-9cd1-84df271daeb9</td>
+      <td>0LiT6ZNtbpYL</td>
+      <td>sha256:3ecf29979b2722bf4a82a5e7a954e8685820720...</td>
+      <td>1</td>
+      <td>sha256:f46f210d6023bec16e68340b484a8881ce46d5e...</td>
+      <td>None</td>
+      <td>47DEQpj8HBSa</td>
+      <td>False</td>
+      <td>archives/compressed/00/00003d61-9db1-4757-9cd1...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>00003d61-9db1-4757-9cd1-84df271daeb9</td>
+      <td>0LiT6ZNtbpYL</td>
+      <td>sha256:3ecf29979b2722bf4a82a5e7a954e8685820720...</td>
+      <td>1</td>
+      <td>sha256:edb9aaacf421c6dc45b20324e8699cec02f26bf...</td>
+      <td>n9CdwzVF-cwZ</td>
+      <td>RNOaw_AuQeIY</td>
+      <td>False</td>
+      <td>archives/compressed/00/00003d61-9db1-4757-9cd1...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>00003d61-9db1-4757-9cd1-84df271daeb9</td>
+      <td>0LiT6ZNtbpYL</td>
+      <td>sha256:542d007d13008cc1be2dbf03601b954c4452947...</td>
+      <td>1</td>
+      <td>sha256:a693c315b775c693dc49c19b7f217762676bc28...</td>
+      <td>b51B0EZ1bw3c</td>
+      <td>ua-xlwwsvdYd</td>
+      <td>False</td>
+      <td>archives/compressed/00/00003d61-9db1-4757-9cd1...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>00003d61-9db1-4757-9cd1-84df271daeb9</td>
+      <td>0LiT6ZNtbpYL</td>
+      <td>sha256:542d007d13008cc1be2dbf03601b954c4452947...</td>
+      <td>1</td>
+      <td>sha256:a693c315b775c693dc49c19b7f217762676bc28...</td>
+      <td>Cl6kTzfbYztA</td>
+      <td>None</td>
+      <td>True</td>
+      <td>archives/compressed/00/00003d61-9db1-4757-9cd1...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>00003d61-9db1-4757-9cd1-84df271daeb9</td>
+      <td>0LiT6ZNtbpYL</td>
+      <td>sha256:542d007d13008cc1be2dbf03601b954c4452947...</td>
+      <td>1</td>
+      <td>sha256:d9c64d038f16e04c52142bc9e7dfa0645ce7e34...</td>
+      <td>Cl6kTzfbYztA</td>
+      <td>None</td>
+      <td>True</td>
+      <td>archives/compressed/00/00003d61-9db1-4757-9cd1...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<div class="section" id="inspecting-the-container-dataset">
+<h4>Inspecting the Container Dataset<a class="headerlink" href="#inspecting-the-container-dataset" title="Permalink to this headline">¶</a></h4>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">containers_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>cluster_id                      00003d61-9db1-4757-9cd1-84df271daeb9
+namespace                                               0LiT6ZNtbpYL
+shape              sha256:3ecf29979b2722bf4a82a5e7a954e8685820720...
+shape_instances                                                    1
+image_id           sha256:edb9aaacf421c6dc45b20324e8699cec02f26bf...
+first_command                                           n9CdwzVF-cwZ
+first_arg                                               RNOaw_AuQeIY
+init_container                                                 False
+archive_path       archives/compressed/00/00003d61-9db1-4757-9cd1...
+Name: 1, dtype: object
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Available fields:</strong></p>
+<ul class="simple">
+<li><p><strong>cluster_id</strong>: id of the cluster</p></li>
+<li><p><strong>namespace</strong>: namespace in the cluster</p></li>
+<li><p><strong>shape</strong>: These are POD’s templete. They are set of containers in the POD. If two POD used the same set of containers, same command, they fall into same shape.</p></li>
+<li><p><strong>shape_instances</strong>: number of PODs of that shape.</p></li>
+<li><p><strong>containers (image_id/first_command/first_argument/init_container)</strong>: provide the information about the containers in the shape. Their image_id, first_command, first argument and also the number of containers in that shape (init_container).</p></li>
+<li><p><strong>archive_path</strong>: archive path to the cluster id.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">containers_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;shape&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
+    <span class="p">{</span><span class="s2">&quot;cluster_id&quot;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="o">.</span><span class="n">nunique</span><span class="p">}</span>
+<span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;cluster_id&quot;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>shape</th>
+      <th>cluster_id</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>6315</th>
+      <td>sha256:ff62cfd4da3beb77d886f8935a1b7a6aaf54bdb...</td>
+      <td>2721</td>
+    </tr>
+    <tr>
+      <th>2969</th>
+      <td>sha256:78fc0fdc25942f43a44b10330813a19f04ea88e...</td>
+      <td>2551</td>
+    </tr>
+    <tr>
+      <th>2040</th>
+      <td>sha256:524148cb8d81907984141cb8d210decf75657d7...</td>
+      <td>1792</td>
+    </tr>
+    <tr>
+      <th>2370</th>
+      <td>sha256:5fe22686d7266cfc828498c6674f3268fa6bb78...</td>
+      <td>1790</td>
+    </tr>
+    <tr>
+      <th>3728</th>
+      <td>sha256:97af185840a1f8c688608aa199bc6a8fb45f9ae...</td>
+      <td>1361</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2908</th>
+      <td>sha256:76cde139b6a84f92e5f5d273aaec928589957f4...</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2909</th>
+      <td>sha256:76d83926eb2df6f554f519bfcc9f74904a16b75...</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2911</th>
+      <td>sha256:76e3aa55c87e23ff1c7beef873bcf399b89ca30...</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2912</th>
+      <td>sha256:77063f77b9a5d1513981bbe202ebceeecc5f80f...</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>6328</th>
+      <td>sha256:ffe906ed042207a1a05260ecf1c46f93218b830...</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>6329 rows × 2 columns</p>
+</div></div></div>
+</div>
+<p>To have some idea about the shape, we use the groupby method in order to examine if different clusters have same shape or not. Turns out, form the information above, almost all clusters have the same shape configuration.</p>
+</div>
+</div>
+</div>
+<div class="section" id="conclusion">
+<h2>Conclusion<a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h2>
+<p>Our next goal is to do the exploratory data analysis of the dataset to get some insight about the relationships between the features. This is then followed by the use of ML for identifying and analysing the types (clusters) of workloads that customer runs.</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+
+
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="../docs/Relevant_papers.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Relevant Papers related to Fingerprinting Workloads</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="pyxis_mapping.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Mapping Image SHA to Image Name using Pyxis database</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+
+          By AIOps<br/>
+
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
