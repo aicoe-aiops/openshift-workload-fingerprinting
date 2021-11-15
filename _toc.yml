@@ -11,7 +11,7 @@ parts:
     - file: notebooks/Data_collection_from_telemetry
   - caption: Exploratory Data Analysis
     chapters:
-    - file: notebooks/EDA_insight_workload_data
+    - file: notebooks/EDA_workload_demo
   - caption: ML Clustering
     chapters:
     - file: notebooks/ML_clustering_part2
