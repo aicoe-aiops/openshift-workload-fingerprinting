@@ -1,0 +1,421 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Relevant Papers related to Fingerprinting Workloads &#8212; OpenShift Workload Fingerprinting</title>
+
+  <link href="../_static/css/theme.css" rel="stylesheet">
+  <link href="../_static/css/index.ff1ffe594081f20da1ef19478df9384b.css" rel="stylesheet">
+
+
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+
+
+
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+
+  <link rel="preload" as="script" href="../_static/js/index.be7d3bbb2ef33a8344ce.js">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebe@0.5.1/lib/index.js"></script>
+    <script>
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Getting started: Introducing workload data" href="../notebooks/getting_started_notebook.html" />
+    <link rel="prev" title="Understanding Workloads in OpenShift" href="../README.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+
+
+    <!-- Google Analytics -->
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+
+    <div class="container-fluid" id="banner"></div>
+
+
+
+    <div class="container-xl">
+      <div class="row">
+
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+
+
+
+      <h1 class="site-logo" id="site-title">OpenShift Workload Fingerprinting</h1>
+
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../README.html">
+   Understanding Workloads in OpenShift
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Previous Work Done
+ </span>
+</p>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Relevant Papers related to Fingerprinting Workloads
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Getting Started
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/getting_started_notebook.html">
+   Getting started: Introducing workload data
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/pyxis_mapping.html">
+   Mapping Image SHA to Image Name using Pyxis database
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/Data_collection_from_telemetry.html">
+   Extracting the Telemetry Info for Clusters in Workload Dataset
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Exploratory Data Analysis
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/EDA_workload_demo.html">
+   Exploratory Data Analysis
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  ML Clustering
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/ML_clustering_part2.html">
+   ML Clustering
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+
+
+
+
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/docs/Relevant_papers.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/aicoe-aiops/openshift-workload-fingerprinting"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/aicoe-aiops/openshift-workload-fingerprinting/issues/new?title=Issue%20on%20page%20%2Fdocs/Relevant_papers.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#autonomic-characterization-of-workloads-using-workload-fingerprinting">
+   Autonomic characterization of workloads using workload fingerprinting:
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#fingerprinting-anomalous-computation-with-rnn-for-gpu-accelerated-hpc-machine">
+   Fingerprinting anomalous computation with RNN for GPU-accelerated HPC machine:
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#i-o-workload-fingerprinting-in-the-genetic-library">
+   I/O workload fingerprinting in the genetic-library:
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#vm-and-workload-fingerprinting-for-software-defined-datacenters">
+   VM and workload fingerprinting for software defined datacenters:
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+
+              <div>
+
+  <div style="text-align: justify">
+<div class="tex2jax_ignore mathjax_ignore section" id="relevant-papers-related-to-fingerprinting-workloads">
+<h1>Relevant Papers related to Fingerprinting Workloads<a class="headerlink" href="#relevant-papers-related-to-fingerprinting-workloads" title="Permalink to this headline">¶</a></h1>
+<p>This document will provide an understanding of various research articles related to fingerprinting workloads. Here is the <a class="reference external" href="https://docs.google.com/document/d/120fm-EnnM8bmvku9POaDKTb-9dbkqwV_bnIRnIpyDMk/edit">google docs</a> link of the document.</p>
+<div class="section" id="autonomic-characterization-of-workloads-using-workload-fingerprinting">
+<h2><a class="reference external" href="https://ieeexplore.ieee.org/document/7015482">Autonomic characterization of workloads using workload fingerprinting:</a><a class="headerlink" href="#autonomic-characterization-of-workloads-using-workload-fingerprinting" title="Permalink to this headline">¶</a></h2>
+<p>In this paper the author developed a workload/phase detection model that uses machine learning methodology to classify the workload behavior into various phases of workload operation. The paper describes workload fingerprinting methodology involving two step process that can be summarized as:</p>
+<ol class="simple">
+<li><p>Workload detection - Identifying the type of workload.</p></li>
+<li><p>Phase detection - Identifying distinct phases for a given type of workload.</p></li>
+</ol>
+<p>Workload execution is typically characterized by many different features ranging from cache, behavior, CPU utilization, memory bandwidth, I/O bandwidth and so on. The workload detection process uses a supervised classification process to train a model that detects the type of workload using reduced feature sets. The learning process infers the underlying relationship between the observed feature and a target workload type variable which is a subject of prediction. Adaboost algorithm is used to synthesize workload detection models.</p>
+<p>Phase detection in a workload acts as an essential ingredient that captures time varying behavior of dynamically adaptable systems. A phase is a stage of execution in which a workload demonstrates similar power, temperature, resource utilization and performance characteristics. K-means clustering is used to partition d-dimensional features into k clusters such that each emission belongs to the clusters with the nearest mean.</p>
+<table>
+  <tr>
+   <td><strong>Event Counter</strong>
+   </td>
+   <td><strong>Significance (%)</strong>
+   </td>
+  </tr>
+  <tr>
+   <td>FREERUN_CORE_ENERGY_STATUS
+   </td>
+   <td>51.677
+   </td>
+  </tr>
+  <tr>
+   <td>OFFCORE_REQUEST.ALL_DATA_RD
+   </td>
+   <td>23.775
+   </td>
+  </tr>
+  <tr>
+   <td>LONGEST_LAT_CACHE.MISS
+   </td>
+   <td>7.226
+   </td>
+  </tr>
+  <tr>
+   <td>CYCLE_ACTIVITY.CYCLES_LID_PENDING
+   </td>
+   <td>6.227
+   </td>
+  </tr>
+  <tr>
+   <td>UOPS_ISSUED.CORE_STALL_CYCLES
+   </td>
+   <td>3.881
+   </td>
+  </tr>
+  <tr>
+   <td>SCY
+   </td>
+   <td>2.655
+   </td>
+  </tr>
+  <tr>
+   <td>UOPS_RETIRED.STALL_CYCLES
+   </td>
+   <td>2.606
+   </td>
+  </tr>
+  <tr>
+   <td>CPU_CLK_UNHALTED.THREAD
+   </td>
+   <td>0.962
+   </td>
+  </tr>
+</table>
+<p>TABLE I: SINGLE WORKLOAD CASE: RELATIVE SIGNIFICANCE OF OBSERVED EVENTS FOR WORKLOAD IDENTIFICATION</p>
+<p>They developed a workload/phase detection model that uses machine learning methodology to classify the workload behavior into various phases of workload operation. The first part of the methodology comprises workload detection that uses weak classifiers as in Adaboost. The algorithm provides the two outputs. First, identify the most significant events in identifying the workload and second, model to classify the workload based on hardware events. The bagging algorithm identifies nine events with non-zero importance in workload classification, listed in Table I. Once the workloads are identified, the second part of the methodology uses variants of k-means clustering to synthesize distinctive phases (or behaviors) within workloads. The workload-phase feature acts as an additional vector in addition to existing features that improves training models used for service-level-objective (SLO) related control processes (Load Allocation, Re-balancing, Resource-Provisioning, Contention-Avoidance). Results demonstrate a high degree of accuracy (99%) in workload identification and 97.15% accuracy in resource forecasting.</p>
+</div>
+<div class="section" id="fingerprinting-anomalous-computation-with-rnn-for-gpu-accelerated-hpc-machine">
+<h2><a class="reference external" href="https://sc19.supercomputing.org/proceedings/src_poster/poster_files/spostg129s2-file2.pdf">Fingerprinting anomalous computation with RNN for GPU-accelerated HPC machine:</a><a class="headerlink" href="#fingerprinting-anomalous-computation-with-rnn-for-gpu-accelerated-hpc-machine" title="Permalink to this headline">¶</a></h2>
+<p>The paper presented a ML based automatic illicit workload detection framework for GPU accelerated HPC systems such as Summit. Illicit workloads include, exploiting systems for bitcoin mining, brute force password cracking, and GPU-inflated denial of service (DoS) attack. They collected as many features as possible to identify the characteristic of GPC-accelerated HPC workload. It presented an ML framework for classifying GPGPU workloads based on their microarchitectural and system behavior, and collected the multiple types of workload behavioral data from multiple sources, viz., microarchitectural events behavior, data movement behavior, and resources utilization behavior.</p>
+<p>The analysis was done on labelled data, ANN achieved the highest accuracy (98%), while 76% and 88% for KNN and SVM, respectively. Memory access patterns show the most significant difference among workloads. The execution-related factors such as SM occupancy, instruction-replay, etc. are also good indicators for application discrimination. The models trained with data-movement are slightly more accurate than others.</p>
+</div>
+<div class="section" id="i-o-workload-fingerprinting-in-the-genetic-library">
+<h2><a class="reference external" href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.504.3994&amp;rep=rep1&amp;type=pdf">I/O workload fingerprinting in the genetic-library:</a><a class="headerlink" href="#i-o-workload-fingerprinting-in-the-genetic-library" title="Permalink to this headline">¶</a></h2>
+<p>This paper talks about disk scheduling and the effect of workload fingerprinting in performance tuning. It serves as a good example of improvement in the performance of different types of workload due to fingerprinting. The paper describes how to create an I/O workload fingerprint and its use in both I/O schedulers, and in the genetic library. Main focus of the paper is on the application of fingerprinting in the genetic library. Paper distinguished different types of workload based on characteristics such as type (read/write), size (small/large), pattern (sequential/random) and using these categories they constructed a fingerprint. The main purpose of I/O workload fingerprinting is to converge on optimal turntables quicker during a changing work-load. To test how well it performed a <a class="reference external" href="https://sourceforge.net/projects/ffsb/">flexible file system benchmark</a> was used. The FFSB is a versatile benchmark which is able to simulate almost any I/O workloads. As a conclusion, workloads based on sequential read and sequential write converged with an 89% and 97% reduction in time, respectively. Random read/ random write converged with a 61% and 19% reduction in time, respectively.</p>
+</div>
+<div class="section" id="vm-and-workload-fingerprinting-for-software-defined-datacenters">
+<h2><a class="reference external" href="https://dspace.mit.edu/handle/1721.1/85425">VM and workload fingerprinting for software defined datacenters:</a><a class="headerlink" href="#vm-and-workload-fingerprinting-for-software-defined-datacenters" title="Permalink to this headline">¶</a></h2>
+<p>It is a thesis from MIT (2013). It serves the purpose of explaining some basic theoretical concepts and strategies with regards to workload fingerprinting, namely, the Pearson correlation coefficient, principal component analysis, K- Means clustering, logistic regression, entropy, relative entropy, Silverman’s test for multimodality, bayesian inference and so on.</p>
+<p>In this thesis, fingerprints are used to represent the relationships (neighborhoods of similarity) between VMs based on the telemetry. There are two categories of data: metadata (e.g. total number of CPUs for the VM, VM friendly name, VM host name, VM resource pool name, host computing and memory resources, host vendor, the number of VMs of the host, the resource pool computing and memory resources, etc), and performance metrics which captures the effect of workload on the virtual machine (e.g, <em>cpu.usage.average</em> denotes the average CPU usage in the sample period). The results are then exploited for explaining performance variations (explaining why VMs expected to be similar are behaving as if they are different), and for obtaining hints regarding placement and co-location. They design the number of fingerprints so that they are easy to compute and scale linearly with the number of performance metrics considered, not the number of machines. In addition, they also used K-Means for clustering and Logistic Regression for classification.</p>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./docs"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+
+
+            <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="../README.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Understanding Workloads in OpenShift</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="../notebooks/getting_started_notebook.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Getting started: Introducing workload data</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+
+        </div>
+    </div>
+    <footer class="footer">
+    <div class="container">
+      <p>
+
+          By AIOps<br/>
+
+            &copy; Copyright 2021.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+  <script src="../_static/js/index.be7d3bbb2ef33a8344ce.js"></script>
+
+  </body>
+</html>
